@@ -1,0 +1,554 @@
+/* ==========================================================================
+   ViaFluvialAM — Tema de Login Keycloak 26  (realm: vfa)
+   Design system espelhado do app React/Tailwind
+   --------------------------------------------------------------------------
+   Paleta:
+     --vfa-green        #1A5F3B   (primaria)
+     --vfa-green-dark   #145030 / #0E3B2A
+     --vfa-yellow       #F9C74F   (acento)
+     --vfa-mint-1       #A8D5BA   (gradiente fundo)
+     --vfa-mint-2       #E8F5E9
+   ========================================================================== */
+
+:root {
+  --vfa-green: #1A5F3B;
+  --vfa-green-hover: #145030;
+  --vfa-green-deep: #0E3B2A;
+  --vfa-yellow: #F9C74F;
+  --vfa-yellow-hover: #F7BE2D;
+  --vfa-mint-1: #A8D5BA;
+  --vfa-mint-2: #E8F5E9;
+
+  --vfa-text: #1f2937;
+  --vfa-text-muted: #6b7280;
+  --vfa-text-soft: #9ca3af;
+  --vfa-border: #d1d5db;
+  --vfa-border-soft: #e5e7eb;
+  --vfa-card-bg: #ffffff;
+
+  --vfa-radius: 12px;
+  --vfa-radius-sm: 8px;
+  --vfa-radius-lg: 18px;
+  --vfa-shadow: 0 10px 30px rgba(16, 59, 42, 0.18);
+  --vfa-shadow-card: 0 18px 50px -12px rgba(13, 59, 42, 0.35);
+  --vfa-ring: 0 0 0 3px rgba(26, 95, 59, 0.35);
+
+  --vfa-font: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ----------------------------------------------------------------- Reset -- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html.vfa-html, body.vfa-body {
+  height: 100%;
+}
+
+body.vfa-body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--vfa-font);
+  color: var(--vfa-text);
+  background: linear-gradient(135deg, var(--vfa-mint-1) 0%, var(--vfa-mint-2) 100%);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ----------------------------------------------------- Fundo amazonico -- */
+.vfa-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.vfa-bg__sky {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  overflow: hidden;
+}
+.vfa-bg__sky::before,
+.vfa-bg__sky::after {
+  content: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140%;
+  border-radius: 46% 54% 0 0 / 20% 20% 0 0;
+}
+.vfa-bg__sky::before {
+  bottom: -14vh;
+  height: 52vh;
+  background: linear-gradient(180deg, rgba(45, 140, 103, 0.45) 0%, rgba(31, 117, 84, 0.55) 100%);
+}
+.vfa-bg__sky::after {
+  bottom: -32vh;
+  height: 58vh;
+  background: linear-gradient(180deg, rgba(26, 95, 59, 0.78) 0%, rgba(14, 59, 42, 0.92) 100%);
+}
+.vfa-bg__scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* Fill full screen width to avoid side bars */
+  object-fit: cover;
+  object-position: center center;
+  opacity: 1;
+  filter: none;
+}
+.vfa-bg__overlay {
+  position: absolute;
+  inset: 0;
+  background: none;
+}
+
+/* --------------------------------------------------------------- Layout -- */
+.vfa-page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+}
+.vfa-container {
+  width: 100%;
+  max-width: 420px;
+  animation: vfa-rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes vfa-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------------------------------------------------- Branding ----- */
+.vfa-brand { text-align: center; margin-bottom: 1.25rem; }
+.vfa-brand__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+}
+.vfa-brand__logo {
+  width: 48px; height: 48px;
+  filter: drop-shadow(0 4px 10px rgba(14,59,42,0.25));
+}
+.vfa-brand__name {
+  font-size: 1.65rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--vfa-green);
+}
+.vfa-brand__accent { color: var(--vfa-yellow); }
+
+/* ---------------------------------------------------------- Titulos ------ */
+.vfa-titles { text-align: center; margin-bottom: 1.5rem; }
+.vfa-title {
+  margin: 0;
+  font-size: 1.9rem;
+  line-height: 1.15;
+  font-weight: 800;
+  color: var(--vfa-green-deep);
+}
+.vfa-subtitle {
+  margin: 0.5rem 0 0;
+  font-size: 0.95rem;
+  color: #2f6b4f;
+}
+
+/* ------------------------------------------------------------- Card ------ */
+.vfa-card {
+  background: var(--vfa-card-bg);
+  border-radius: var(--vfa-radius-lg);
+  box-shadow: var(--vfa-shadow-card);
+  padding: 2rem;
+  border: 1px solid rgba(255,255,255,0.6);
+}
+
+/* ------------------------------------------------------------ Alertas ---- */
+.vfa-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  border: 1px solid transparent;
+  border-radius: var(--vfa-radius-sm);
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.1rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+.vfa-alert__icon { flex: 0 0 auto; display: inline-flex; }
+.vfa-alert__icon svg { width: 20px; height: 20px; }
+.vfa-alert__text { flex: 1; }
+.vfa-alert--error   { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+.vfa-alert--success { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+.vfa-alert--warning { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+.vfa-alert--info    { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+
+/* --------------------------------------------------------- Formularios --- */
+.vfa-form { margin: 0; }
+.vfa-form-group, .form-group { margin-bottom: 1.1rem; }
+.vfa-label, .vfa-label-wrapper label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.35rem;
+}
+.vfa-required, .required { color: #ef4444; margin-left: 0.2rem; }
+
+.vfa-input, .vfa-input--lg, input[type="text"].vfa-input, input[type="password"], input[type="email"] {
+  width: 100%;
+  padding: 0.7rem 0.95rem;
+  font-size: 0.95rem;
+  color: var(--vfa-text);
+  background: #fff;
+  border: 1px solid var(--vfa-border);
+  border-radius: var(--vfa-radius-sm);
+  transition: border-color .2s, box-shadow .2s;
+  font-family: inherit;
+}
+.vfa-input::placeholder { color: var(--vfa-text-soft); }
+.vfa-input:focus, .vfa-input--lg:focus {
+  outline: none;
+  border-color: var(--vfa-green);
+  box-shadow: var(--vfa-ring);
+}
+.vfa-input--error, .vfa-form-group--error .vfa-input { border-color: #ef4444; }
+.vfa-input-error {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #ef4444;
+  font-size: 0.78rem;
+  margin-top: 0.35rem;
+}
+.vfa-input-helper {
+  color: var(--vfa-text-muted);
+  font-size: 0.78rem;
+  margin-top: 0.35rem;
+}
+
+/* Campo de senha com botao de visibilidade */
+.vfa-password {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+.vfa-password .vfa-input { padding-right: 2.8rem; }
+.vfa-password-toggle {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--vfa-text-soft);
+  padding: 0.35rem;
+  display: inline-flex;
+  border-radius: 6px;
+}
+.vfa-password-toggle:hover { color: var(--vfa-green); }
+.vfa-password-toggle svg { width: 20px; height: 20px; }
+
+/* --------------------------------------------------------------- Botoes -- */
+.vfa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  width: 100%;
+  padding: 0.72rem 1.25rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.2;
+  border: 1px solid transparent;
+  border-radius: var(--vfa-radius-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color .2s, box-shadow .2s, transform .05s, border-color .2s;
+}
+.vfa-btn:active { transform: translateY(1px); }
+.vfa-btn:focus-visible { outline: none; box-shadow: var(--vfa-ring); }
+.vfa-btn svg { width: 20px; height: 20px; }
+
+.vfa-btn--primary {
+  background: var(--vfa-green);
+  color: #fff;
+}
+.vfa-btn--primary:hover { background: var(--vfa-green-hover); }
+
+.vfa-btn--secondary {
+  background: var(--vfa-yellow);
+  color: var(--vfa-green-deep);
+}
+.vfa-btn--secondary:hover { background: var(--vfa-yellow-hover); }
+
+.vfa-btn--outline, .vfa-btn--social {
+  background: #fff;
+  color: #374151;
+  border-color: var(--vfa-border);
+}
+.vfa-btn--outline:hover, .vfa-btn--social:hover { background: #f9fafb; }
+
+.vfa-btn[disabled], .vfa-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.vfa-btn--block { width: 100%; }
+
+/* ----------------------------------------------------- Linhas auxiliares - */
+.vfa-form-aux {
+  display: flex;
+  justify-content: flex-end;
+  margin: -0.4rem 0 1.1rem;
+}
+.vfa-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  color: var(--vfa-green);
+  font-weight: 600;
+  text-decoration: none;
+}
+.vfa-link:hover { text-decoration: underline; }
+.vfa-link--muted { color: var(--vfa-text-muted); font-weight: 500; }
+
+/* ------------------------------------------------------------ Divisor ---- */
+.vfa-divider {
+  position: relative;
+  text-align: center;
+  margin: 1.4rem 0;
+}
+.vfa-divider::before {
+  content: "";
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  height: 1px;
+  background: var(--vfa-border-soft);
+}
+.vfa-divider span {
+  position: relative;
+  background: #fff;
+  padding: 0 0.9rem;
+  color: var(--vfa-text-muted);
+  font-size: 0.85rem;
+}
+
+/* -------------------------------------------------------- Login social --- */
+.vfa-social-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.65rem; }
+.vfa-social-name { flex: 1; text-align: center; }
+
+/* ------------------------------------------------------- Rodape do card -- */
+.vfa-card-foot {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--vfa-border-soft);
+  font-size: 0.875rem;
+  color: var(--vfa-text-muted);
+}
+
+/* ----------------------------------------------------------- OTP boxes --- */
+.vfa-otp {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0 1.25rem;
+}
+.vfa-otp input {
+  width: 3rem;
+  height: 3.5rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border: 2px solid var(--vfa-border);
+  border-radius: var(--vfa-radius-sm);
+  transition: border-color .2s, box-shadow .2s;
+}
+.vfa-otp input:focus {
+  outline: none;
+  border-color: var(--vfa-green);
+  box-shadow: var(--vfa-ring);
+}
+
+/* ----------------------------------------------------- Icone destaque ---- */
+.vfa-feature-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+.vfa-feature-icon__circle {
+  width: 4.5rem; height: 4.5rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--vfa-mint-2);
+  color: var(--vfa-green);
+}
+.vfa-feature-icon__circle--danger { background: #fef2f2; color: #ef4444; }
+.vfa-feature-icon__circle svg { width: 2.25rem; height: 2.25rem; }
+
+/* --------------------------------------------------------- Caixas info --- */
+.vfa-note {
+  border-radius: var(--vfa-radius-sm);
+  padding: 0.9rem 1rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+.vfa-note--gray { background: #f9fafb; border: 1px solid var(--vfa-border-soft); color: #4b5563; }
+.vfa-note--blue { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+.vfa-note h4 { margin: 0 0 0.5rem; font-size: 0.85rem; color: #374151; }
+.vfa-note ul { margin: 0; padding-left: 1.1rem; }
+.vfa-note li { margin-bottom: 0.25rem; }
+
+.vfa-text-center { text-align: center; }
+.vfa-text-muted { color: var(--vfa-text-muted); font-size: 0.9rem; }
+.vfa-mt { margin-top: 1rem; }
+.vfa-mb { margin-bottom: 1rem; }
+.vfa-space > * + * { margin-top: 0.75rem; }
+
+/* --------------------------------------------------------- Checkbox ------ */
+.vfa-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.875rem;
+  color: var(--vfa-text-muted);
+}
+.vfa-checkbox input[type="checkbox"] {
+  margin-top: 0.15rem;
+  width: 1rem; height: 1rem;
+  accent-color: var(--vfa-green);
+}
+
+/* --------------------------------------------------- Termos scrollavel --- */
+.vfa-terms-box {
+  background: #f9fafb;
+  border: 1px solid var(--vfa-border-soft);
+  border-radius: var(--vfa-radius-sm);
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+  max-height: 18rem;
+  overflow-y: auto;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: #374151;
+}
+.vfa-terms-box h3 { margin: 0 0 0.75rem; font-size: 0.9rem; }
+
+/* ----------------------------------------------- Seletor autenticador ---- */
+.vfa-auth-list { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; gap: 0.65rem; }
+.vfa-auth-item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  text-align: left;
+  background: #fff;
+  border: 1px solid var(--vfa-border);
+  border-radius: var(--vfa-radius-sm);
+  padding: 0.9rem 1rem;
+  cursor: pointer;
+  transition: border-color .2s, box-shadow .2s, background .2s;
+}
+.vfa-auth-item:hover { border-color: var(--vfa-green); background: #f8fdfa; }
+.vfa-auth-item-icon { color: var(--vfa-green); display: inline-flex; }
+.vfa-auth-item-icon svg { width: 24px; height: 24px; }
+.vfa-auth-item-body { flex: 1; }
+.vfa-auth-item-title { font-weight: 600; color: var(--vfa-text); }
+.vfa-auth-item-help { font-size: 0.8rem; color: var(--vfa-text-muted); }
+.vfa-auth-item-arrow { color: var(--vfa-text-soft); }
+
+/* ------------------------------------------------- Seletor de idioma ----- */
+.vfa-locale {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  z-index: 5;
+}
+.vfa-locale__current {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255,255,255,0.8);
+  border: 1px solid rgba(255,255,255,0.9);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--vfa-green-deep);
+  cursor: pointer;
+}
+.vfa-locale__menu {
+  list-style: none;
+  position: absolute;
+  right: 0; margin: 0.4rem 0 0; padding: 0.35rem;
+  background: #fff;
+  border-radius: var(--vfa-radius-sm);
+  box-shadow: var(--vfa-shadow);
+  min-width: 140px;
+  display: none;
+}
+.vfa-locale:hover .vfa-locale__menu,
+.vfa-locale:focus-within .vfa-locale__menu { display: block; }
+.vfa-locale__menu a {
+  display: block;
+  padding: 0.45rem 0.65rem;
+  border-radius: 6px;
+  color: var(--vfa-text);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+.vfa-locale__menu a:hover { background: var(--vfa-mint-2); color: var(--vfa-green-deep); }
+
+/* ----------------------------------------------------------- Rodape ------ */
+.vfa-footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
+}
+.vfa-footer__accent {
+  color: var(--vfa-yellow);
+  font-weight: 700;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+}
+
+.vfa-try-another { margin-top: 1rem; text-align: center; }
+
+/* ------------------------------------------------ Forca de senha (JS) ---- */
+.vfa-strength { margin: -0.4rem 0 1.1rem; }
+.vfa-strength__label { font-size: 0.75rem; color: var(--vfa-text-muted); margin-bottom: 0.35rem; }
+.vfa-strength__bars { display: flex; gap: 0.25rem; }
+.vfa-strength__bar {
+  height: 4px; flex: 1; border-radius: 4px; background: #e5e7eb;
+  transition: background .25s;
+}
+.vfa-strength[data-score="1"] .vfa-strength__bar:nth-child(-n+1) { background: #ef4444; }
+.vfa-strength[data-score="2"] .vfa-strength__bar:nth-child(-n+2) { background: #f59e0b; }
+.vfa-strength[data-score="3"] .vfa-strength__bar:nth-child(-n+3) { background: #eab308; }
+.vfa-strength[data-score="4"] .vfa-strength__bar:nth-child(-n+4) { background: #22c55e; }
+
+/* ------------------------------------------------------- Responsivo ------ */
+@media (max-width: 480px) {
+  .vfa-card { padding: 1.5rem; }
+  .vfa-title { font-size: 1.6rem; }
+  .vfa-brand__name { font-size: 1.45rem; }
+  .vfa-otp input { width: 2.6rem; height: 3.1rem; font-size: 1.25rem; }
+  .vfa-bg__scene { object-position: center center; }
+}
+
+/* Reduz movimento para quem prefere */
+@media (prefers-reduced-motion: reduce) {
+  .vfa-container { animation: none; }
+}

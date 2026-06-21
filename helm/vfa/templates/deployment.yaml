@@ -1,0 +1,154 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "vfa.fullname" . }}
+  labels:
+    {{- include "vfa.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "vfa.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "vfa.selectorLabels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      annotations:
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "vfa.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: keycloak
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            {{- toYaml .Values.keycloak.startCommand | nindent 12 }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: KC_BOOTSTRAP_ADMIN_USERNAME
+              value: {{ .Values.keycloak.bootstrapAdmin.username | quote }}
+            - name: KC_BOOTSTRAP_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "vfa.fullname" . }}-secrets
+                  key: KC_BOOTSTRAP_ADMIN_PASSWORD
+
+            - name: KC_HTTP_ENABLED
+              value: "true"
+            - name: KC_PROXY_HEADERS
+              value: {{ .Values.keycloak.proxyHeaders | quote }}
+
+            - name: KC_HOSTNAME
+              value: {{ .Values.keycloak.hostname | quote }}
+            - name: KC_HOSTNAME_ADMIN
+              value: {{ .Values.keycloak.hostnameAdmin | quote }}
+            - name: KC_HOSTNAME_STRICT
+              value: {{ .Values.keycloak.hostnameStrict | quote }}
+
+            - name: KC_DB
+              value: {{ .Values.keycloak.db.vendor | quote }}
+            - name: KC_DB_URL_HOST
+              value: {{ .Values.keycloak.db.host | quote }}
+            - name: KC_DB_URL_PORT
+              value: {{ .Values.keycloak.db.port | quote }}
+            - name: KC_DB_URL_DATABASE
+              value: {{ .Values.keycloak.db.database | quote }}
+            - name: KC_DB_USERNAME
+              value: {{ .Values.keycloak.db.username | quote }}
+            - name: KC_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "vfa.fullname" . }}-secrets
+                  key: KC_DB_PASSWORD
+            - name: KC_DB_POOL_INITIAL_SIZE
+              value: {{ .Values.keycloak.db.poolInitialSize | quote }}
+            - name: KC_DB_POOL_MAX_SIZE
+              value: {{ .Values.keycloak.db.poolMaxSize | quote }}
+
+            - name: KC_CACHE
+              value: {{ .Values.keycloak.cache.type | quote }}
+            - name: KC_CACHE_STACK
+              value: {{ .Values.keycloak.cache.stack | quote }}
+
+            - name: KC_HEALTH_ENABLED
+              value: {{ .Values.keycloak.observability.healthEnabled | quote }}
+            - name: KC_METRICS_ENABLED
+              value: {{ .Values.keycloak.observability.metricsEnabled | quote }}
+            - name: KC_LOG_LEVEL
+              value: {{ .Values.keycloak.observability.logLevel | quote }}
+
+            - name: KC_SPI_THEME_LOGIN_THEME
+              value: {{ .Values.keycloak.theme.loginTheme | quote }}
+            - name: KC_SPI_THEME_ACCOUNT_THEME
+              value: {{ .Values.keycloak.theme.accountTheme | quote }}
+            - name: KC_SPI_THEME_ADMIN_THEME
+              value: {{ .Values.keycloak.theme.adminTheme | quote }}
+            - name: KC_SPI_THEME_EMAIL_THEME
+              value: {{ .Values.keycloak.theme.emailTheme | quote }}
+
+            - name: GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "vfa.fullname" . }}-secrets
+                  key: GOOGLE_CLIENT_ID
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "vfa.fullname" . }}-secrets
+                  key: GOOGLE_CLIENT_SECRET
+
+            {{- with .Values.extraEnv }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 120
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 6
+
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 8080
+            initialDelaySeconds: 45
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 6
+
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

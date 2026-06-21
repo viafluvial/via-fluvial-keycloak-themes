@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 960" width="1440" height="960" preserveAspectRatio="xMidYMax slice" role="img" aria-label="Paisagem fluvial amazonica">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#E8F5E9"/>
+      <stop offset="45%" stop-color="#CDEBD9"/>
+      <stop offset="100%" stop-color="#A8D5BA"/>
+    </linearGradient>
+    <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color="#FBE7A6" stop-opacity="0.95"/>
+      <stop offset="45%" stop-color="#F9C74F" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#F9C74F" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="hillFar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7FBF9A"/>
+      <stop offset="100%" stop-color="#6FB48C"/>
+    </linearGradient>
+    <linearGradient id="hillMid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4E9E73"/>
+      <stop offset="100%" stop-color="#3E8E63"/>
+    </linearGradient>
+    <linearGradient id="hillNear" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2E7B52"/>
+      <stop offset="100%" stop-color="#1F6442"/>
+    </linearGradient>
+    <linearGradient id="river" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#BFE6D2"/>
+      <stop offset="40%" stop-color="#8FCDB0"/>
+      <stop offset="100%" stop-color="#5FAE8A"/>
+    </linearGradient>
+    <linearGradient id="bankFront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#175537"/>
+      <stop offset="100%" stop-color="#0E3B2A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ceu -->
+  <rect width="1440" height="960" fill="url(#sky)"/>
+
+  <!-- sol e brilho -->
+  <circle cx="1230" cy="245" r="300" fill="url(#sunGlow)"/>
+  <circle cx="1230" cy="245" r="74" fill="#F9C74F" opacity="0.9"/>
+  <circle cx="1230" cy="245" r="74" fill="#FBE7A6" opacity="0.5"/>
+
+  <!-- nuvens suaves -->
+  <g fill="#FFFFFF" opacity="0.5">
+    <ellipse cx="300" cy="200" rx="130" ry="34"/>
+    <ellipse cx="410" cy="220" rx="90" ry="26"/>
+    <path d="M598 132c0-20 26-34 60-34 22 0 42 6 53 16 9-6 22-10 37-10 33 0 60 14 60 32 0 18-27 32-60 32H656c-32 0-58-16-58-36z"/>
+    <path d="M1118 156c0-18 23-31 52-31 16 0 31 4 41 11 8-5 19-8 31-8 28 0 51 12 51 27 0 16-23 29-51 29h-73c-28 0-51-13-51-28z"/>
+  </g>
+
+  <!-- aves -->
+  <g stroke="#0E3B2A" stroke-width="3" fill="none" opacity="0.35" stroke-linecap="round">
+    <path d="M430 250c10-12 18-12 28 0 10-12 18-12 28 0"/>
+    <path d="M350 300c8-10 14-10 22 0 8-10 14-10 22 0"/>
+  </g>
+
+  <!-- aves sobre o sol (lado direito) -->
+  <g stroke="#0E3B2A" stroke-width="3.2" fill="none" opacity="0.42" stroke-linecap="round">
+    <path d="M1170 208c12-13 21-13 33 0 12-13 21-13 33 0"/>
+    <path d="M1245 242c11-12 19-12 30 0 11-12 19-12 30 0"/>
+    <path d="M1200 278c9-10 16-10 25 0 9-10 16-10 25 0"/>
+  </g>
+
+  <!-- montanhas/floresta distante -->
+  <path d="M0 560 Q 200 470 420 540 T 820 510 Q 1080 460 1440 530 L1440 960 L0 960 Z" fill="url(#hillFar)" opacity="0.85"/>
+  <!-- mata media -->
+  <path d="M0 640 Q 260 560 520 620 T 980 600 Q 1230 560 1440 620 L1440 960 L0 960 Z" fill="url(#hillMid)"/>
+
+  <!-- rio -->
+  <path d="M0 720 Q 360 690 720 712 T 1440 700 L1440 870 Q 1080 900 720 884 T 0 866 Z" fill="url(#river)"/>
+  <!-- reflexos do rio -->
+  <g fill="#FFFFFF" opacity="0.35">
+    <rect x="300" y="760" width="220" height="5" rx="2.5"/>
+    <rect x="360" y="788" width="140" height="4" rx="2"/>
+    <rect x="820" y="752" width="260" height="5" rx="2.5"/>
+    <rect x="900" y="784" width="150" height="4" rx="2"/>
+  </g>
+  <!-- reflexo do sol na agua -->
+  <g fill="#F9C74F" opacity="0.4">
+    <rect x="990" y="744" width="110" height="6" rx="3"/>
+    <rect x="1005" y="770" width="80" height="5" rx="2.5"/>
+    <rect x="1015" y="794" width="60" height="4" rx="2"/>
+  </g>
+
+  <!-- margem frontal com vegetacao -->
+  <path d="M0 820 Q 280 786 600 812 T 1180 808 Q 1330 800 1440 820 L1440 960 L0 960 Z" fill="url(#bankFront)"/>
+
+  <!-- palmeiras (silhueta) -->
+  <g fill="#0E3B2A">
+    <g transform="translate(120 700)">
+      <rect x="-5" y="0" width="10" height="130" rx="5"/>
+      <path d="M0 6 C -46 -14 -78 -6 -96 14 C -64 2 -34 4 0 18 Z"/>
+      <path d="M0 6 C 46 -14 78 -6 96 14 C 64 2 34 4 0 18 Z"/>
+      <path d="M0 2 C -18 -40 -10 -70 10 -92 C -2 -58 -2 -28 6 6 Z"/>
+      <path d="M0 6 C 24 -34 54 -50 84 -54 C 52 -40 24 -20 8 12 Z"/>
+    </g>
+    <g transform="translate(260 726) scale(0.72)">
+      <rect x="-5" y="0" width="10" height="110" rx="5"/>
+      <path d="M0 6 C -46 -14 -78 -6 -96 14 C -64 2 -34 4 0 18 Z"/>
+      <path d="M0 6 C 46 -14 78 -6 96 14 C 64 2 34 4 0 18 Z"/>
+      <path d="M0 2 C -18 -40 -10 -70 10 -92 C -2 -58 -2 -28 6 6 Z"/>
+      <path d="M0 6 C 24 -34 54 -50 84 -54 C 52 -40 24 -20 8 12 Z"/>
+    </g>
+    <g transform="translate(1120 804) scale(0.68)">
+      <rect x="-5" y="0" width="10" height="106" rx="5"/>
+      <path d="M0 6 C -46 -14 -78 -6 -96 14 C -64 2 -34 4 0 18 Z"/>
+      <path d="M0 6 C 46 -14 78 -6 96 14 C 64 2 34 4 0 18 Z"/>
+      <path d="M0 2 C 18 -40 10 -70 -10 -92 C 2 -58 2 -28 -6 6 Z"/>
+      <path d="M0 6 C -24 -34 -54 -50 -84 -54 C -52 -40 -24 -20 -8 12 Z"/>
+    </g>
+    <g transform="translate(1320 720) scale(0.9)">
+      <rect x="-5" y="0" width="10" height="120" rx="5"/>
+      <path d="M0 6 C -46 -14 -78 -6 -96 14 C -64 2 -34 4 0 18 Z"/>
+      <path d="M0 6 C 46 -14 78 -6 96 14 C 64 2 34 4 0 18 Z"/>
+      <path d="M0 2 C 18 -40 10 -70 -10 -92 C 2 -58 2 -28 -6 6 Z"/>
+      <path d="M0 6 C -24 -34 -54 -50 -84 -54 C -52 -40 -24 -20 -8 12 Z"/>
+    </g>
+  </g>
+</svg>

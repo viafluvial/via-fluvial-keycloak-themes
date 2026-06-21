@@ -1,0 +1,30 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Env files
+.env
+.env.*
+!.env.example
+
+# Logs / temp
+*.log
+*.tmp
+*.bak
+
+# Build artifacts
+/dist/
+/build/
+/tmp/
+
+# Helm artifacts
+*.tgz
+charts/*.tgz
+
+# Docker / local cache
+.docker/
+.cache/

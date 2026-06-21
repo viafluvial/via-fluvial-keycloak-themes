@@ -1,0 +1,11 @@
+1. Get release info:
+   kubectl get pods -n {{ .Release.Namespace }} -l app.kubernetes.io/instance={{ .Release.Name }}
+
+2. Access endpoints:
+   Public: https://{{ .Values.ingress.publicHost }}
+   Admin:  https://{{ .Values.ingress.adminHost }}/admin
+
+3. Theme configured:
+   KC_SPI_THEME_LOGIN_THEME={{ .Values.keycloak.theme.loginTheme }}
+
+4. If this is first deploy, verify bootstrap admin user and realm import logs.

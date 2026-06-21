@@ -1,0 +1,49 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "vfa.fullname" . }}
+  labels:
+    {{- include "vfa.labels" . | nindent 4 }}
+  annotations:
+    {{- if .Values.ingress.className }}
+    kubernetes.io/ingress.class: {{ .Values.ingress.className }}
+    {{- end }}
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    {{- if .Values.ingress.tls.enabled }}
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    {{- end }}
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - host: {{ .Values.ingress.publicHost | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "vfa.fullname" . }}
+                port:
+                  number: {{ .Values.service.port }}
+    - host: {{ .Values.ingress.adminHost | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "vfa.fullname" . }}
+                port:
+                  number: {{ .Values.service.port }}
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    - hosts:
+        - {{ .Values.ingress.publicHost | quote }}
+        - {{ .Values.ingress.adminHost | quote }}
+      secretName: {{ include "vfa.fullname" . }}-tls
+  {{- end }}
+{{- end }}

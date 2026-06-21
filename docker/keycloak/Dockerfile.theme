@@ -1,0 +1,12 @@
+FROM quay.io/keycloak/keycloak:26.0.0
+
+USER root
+
+# Production image: include only the custom VFA theme.
+COPY theme/vfa /opt/keycloak/themes/vfa
+
+RUN chown -R keycloak:keycloak /opt/keycloak/themes/vfa
+
+USER keycloak
+
+# Keep default entrypoint/cmd from upstream image.
