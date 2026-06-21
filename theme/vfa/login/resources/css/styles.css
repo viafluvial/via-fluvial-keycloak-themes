@@ -199,7 +199,12 @@ body.vfa-body {
   color: #374151;
   margin-bottom: 0.35rem;
 }
-.vfa-required, .required { color: #ef4444; margin-left: 0.2rem; }
+.vfa-required, .required {
+  color: #ef4444;
+  margin-left: 0.2rem;
+  display: inline;
+  vertical-align: baseline;
+}
 
 .vfa-input, .vfa-input--lg, input[type="text"].vfa-input, input[type="password"], input[type="email"] {
   width: 100%;
