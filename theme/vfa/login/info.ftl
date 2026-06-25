@@ -16,8 +16,6 @@
   <#assign vfaInfoManualHref=vfaInfoRedirectUrl>
 <#elseif vfaInfoFallbackUrl?has_content>
   <#assign vfaInfoManualHref=vfaInfoFallbackUrl>
-<#else>
-  <#assign vfaInfoManualHref=url.loginUrl>
 </#if>
 <@layout.registrationLayout displayMessage=false; section>
   <#if section = "header">
@@ -36,7 +34,7 @@
     </p>
 
     <#if skipLink??>
-    <#else>
+    <#elseif vfaInfoManualHref?has_content>
       <a href="${vfaInfoManualHref}" class="vfa-btn vfa-btn--primary" data-vfa-manual-redirect>${msg("backToApplication")}</a>
     </#if>
 

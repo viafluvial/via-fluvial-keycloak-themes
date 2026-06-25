@@ -14,8 +14,6 @@
   <#assign vfaLogoutManualHref=vfaLogoutRedirectUrl>
 <#elseif vfaLogoutFallbackUrl?has_content>
   <#assign vfaLogoutManualHref=vfaLogoutFallbackUrl>
-<#else>
-  <#assign vfaLogoutManualHref=url.loginUrl>
 </#if>
 <@layout.registrationLayout displayMessage=false; section>
   <#if section = "header">
@@ -61,7 +59,9 @@
             ${msg("doLogout")}
           </button>
         </#if>
-        <a class="vfa-btn vfa-btn--outline" href="${vfaLogoutManualHref}">${msg("vfaDoNotLogout")}</a>
+        <#if vfaLogoutManualHref?has_content>
+          <a class="vfa-btn vfa-btn--outline" href="${vfaLogoutManualHref}">${msg("vfaDoNotLogout")}</a>
+        </#if>
       </div>
     </form>
   </#if>
