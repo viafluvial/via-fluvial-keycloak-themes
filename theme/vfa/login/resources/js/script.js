@@ -8,11 +8,7 @@
 (function () {
   "use strict";
 
-  var PENDING_BACK_KEY = "vfaPendingHistoryBackSteps";
-
   document.addEventListener("DOMContentLoaded", function () {
-    if (consumePendingHistoryBack()) return;
-
     initPasswordToggles();
     initPasswordStrength();
     initOtpInputs();
@@ -100,43 +96,15 @@
     });
   }
 
-  function isLogoutPath() {
-    var path = (window.location && window.location.pathname) || "";
-    return path.indexOf("/protocol/openid-connect/logout") !== -1;
-  }
-
-  function consumePendingHistoryBack() {
-    var pending = Number(window.sessionStorage.getItem(PENDING_BACK_KEY)) || 0;
-    if (pending <= 0) return false;
-
-    if (!isLogoutPath()) {
-      window.sessionStorage.removeItem(PENDING_BACK_KEY);
-      return false;
-    }
-
-    if (window.history.length > 1) {
-      if (pending - 1 > 0) {
-        window.sessionStorage.setItem(PENDING_BACK_KEY, String(pending - 1));
-      } else {
-        window.sessionStorage.removeItem(PENDING_BACK_KEY);
-      }
-      window.history.back();
-      return true;
-    }
-
-    window.sessionStorage.removeItem(PENDING_BACK_KEY);
-    return false;
-  }
-
   function goBackOrFallback(fallbackUrl, steps) {
     var backSteps = Math.max(1, Number(steps) || 1);
 
+    if (window.history.length > backSteps) {
+      window.history.go(-backSteps);
+      return;
+    }
+
     if (window.history.length > 1) {
-      if (backSteps > 1) {
-        window.sessionStorage.setItem(PENDING_BACK_KEY, String(backSteps - 1));
-      } else {
-        window.sessionStorage.removeItem(PENDING_BACK_KEY);
-      }
       window.history.back();
       return;
     }
