@@ -18,10 +18,7 @@
   <#assign vfaLogoutManualHref=url.loginUrl>
 </#if>
 <@layout.registrationLayout displayMessage=false; section>
-  <#if section = "head">
-    <meta http-equiv="refresh" content="5;url=${vfaLogoutManualHref?html}">
-
-  <#elseif section = "header">
+  <#if section = "header">
     <h1 class="vfa-title">${msg("vfaLogoutTitle")}</h1>
     <p class="vfa-subtitle">${msg("vfaLogoutSubtitle")}</p>
 
