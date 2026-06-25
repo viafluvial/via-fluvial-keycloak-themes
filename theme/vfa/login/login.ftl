@@ -66,11 +66,23 @@
         <#if social?? && social.providers?has_content>
           <#list social.providers as p>
             <#assign providerAlias=(p.alias!'')?lower_case>
+            <#assign vfaSocialHref=p.loginUrl>
+            <#if providerAlias?contains("google")>
+              <#if !vfaSocialHref?contains("prompt=")>
+                <#assign vfaSocialHref=vfaSocialHref + (vfaSocialHref?contains("?")?then("&","?")) + "prompt=select_account">
+              </#if>
+              <#if !vfaSocialHref?contains("max_age=")>
+                <#assign vfaSocialHref=vfaSocialHref + "&max_age=0">
+              </#if>
+              <#if !vfaSocialHref?contains("kc_idp_hint=")>
+                <#assign vfaSocialHref=vfaSocialHref + "&kc_idp_hint=" + (p.alias!'google')>
+              </#if>
+            </#if>
             <#if providerAlias?contains("google")><#assign hasGoogle=true></#if>
             <#if providerAlias?contains("facebook")><#assign hasFacebook=true></#if>
             <#if providerAlias?contains("instagram")><#assign hasInstagram=true></#if>
             <li>
-              <a id="social-${p.alias}" class="vfa-btn vfa-btn--social" type="button" href="${p.loginUrl}">
+                <a id="social-${p.alias}" class="vfa-btn vfa-btn--social" type="button" href="${vfaSocialHref}">
                 <#if providerAlias?contains("google") || providerAlias?contains("facebook") || providerAlias?contains("instagram")>
                   <@socialIcon alias=p.alias/>
                 <#elseif p.iconClasses?has_content>
