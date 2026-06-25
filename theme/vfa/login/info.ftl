@@ -6,8 +6,6 @@
   <#assign vfaInfoRedirectUrl=pageRedirectUri>
 <#elseif actionUri?has_content>
   <#assign vfaInfoRedirectUrl=actionUri>
-<#elseif (client.baseUrl)?has_content>
-  <#assign vfaInfoRedirectUrl=client.baseUrl>
 </#if>
 <#if properties.vfaLogoutRedirectFallback?has_content>
   <#assign vfaInfoFallbackUrl=properties.vfaLogoutRedirectFallback>

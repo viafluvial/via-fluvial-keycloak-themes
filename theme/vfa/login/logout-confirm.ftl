@@ -4,8 +4,6 @@
 <#assign vfaLogoutManualHref="">
 <#if pageRedirectUri?has_content>
   <#assign vfaLogoutRedirectUrl=pageRedirectUri>
-<#elseif (client.baseUrl)?has_content>
-  <#assign vfaLogoutRedirectUrl=client.baseUrl>
 </#if>
 <#if properties.vfaLogoutRedirectFallback?has_content>
   <#assign vfaLogoutFallbackUrl=properties.vfaLogoutRedirectFallback>
