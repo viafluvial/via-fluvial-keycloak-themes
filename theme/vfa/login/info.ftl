@@ -1,6 +1,7 @@
 <#import "template.ftl" as layout>
 <#assign vfaInfoRedirectUrl="">
 <#assign vfaInfoFallbackUrl="">
+<#assign vfaInfoManualHref="">
 <#if pageRedirectUri?has_content>
   <#assign vfaInfoRedirectUrl=pageRedirectUri>
 <#elseif actionUri?has_content>
@@ -11,7 +12,17 @@
 <#if properties.vfaLogoutRedirectFallback?has_content>
   <#assign vfaInfoFallbackUrl=properties.vfaLogoutRedirectFallback>
 </#if>
+<#if vfaInfoRedirectUrl?has_content>
+  <#assign vfaInfoManualHref=vfaInfoRedirectUrl>
+<#elseif vfaInfoFallbackUrl?has_content>
+  <#assign vfaInfoManualHref=vfaInfoFallbackUrl>
+<#else>
+  <#assign vfaInfoManualHref=url.loginUrl>
+</#if>
 <@layout.registrationLayout displayMessage=false; section>
+  <#if section = "head">
+    <meta http-equiv="refresh" content="5;url=${vfaInfoManualHref?html}">
+
   <#if section = "header">
     <h1 class="vfa-title"><#if messageHeader??>${kcSanitize(msg("${messageHeader}"))?no_esc}<#else>${kcSanitize(message.summary)?no_esc}</#if></h1>
 
@@ -29,7 +40,7 @@
 
     <#if skipLink??>
     <#else>
-      <a href="#" class="vfa-btn vfa-btn--primary" data-vfa-manual-redirect>${msg("backToApplication")}</a>
+      <a href="${vfaInfoManualHref}" class="vfa-btn vfa-btn--primary" data-vfa-manual-redirect>${msg("backToApplication")}</a>
     </#if>
 
     <#if vfaInfoRedirectUrl?has_content || vfaInfoFallbackUrl?has_content>
@@ -40,7 +51,7 @@
       </p>
       <p class="vfa-text-center">
         ${msg("vfaLogoutRedirectManualPrefix")}
-        <a class="vfa-link vfa-link--accent" href="#" data-vfa-manual-redirect>${msg("vfaLogoutRedirectManualLink")}</a>
+        <a class="vfa-link vfa-link--accent" href="${vfaInfoManualHref}" data-vfa-manual-redirect>${msg("vfaLogoutRedirectManualLink")}</a>
         ${msg("vfaLogoutRedirectManualSuffix")}
       </p>
       <div

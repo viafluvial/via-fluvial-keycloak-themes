@@ -24,14 +24,15 @@
   <meta name="theme-color" content="#1A5F3B">
   <title>${msg("loginTitle",(realm.displayName!''))}</title>
   <link rel="icon" type="image/svg+xml" href="${url.resourcesPath}/img/favicon.svg">
+  <#nested "head">
   <#if properties.styles?has_content>
     <#list properties.styles?split(' ') as style>
-      <link href="${url.resourcesPath}/${style}" rel="stylesheet"/>
+      <link href="${url.resourcesPath}/${style}?v=${properties.vfaAssetVersion!'1'}" rel="stylesheet"/>
     </#list>
   </#if>
   <#if properties.scripts?has_content>
     <#list properties.scripts?split(' ') as script>
-      <script src="${url.resourcesPath}/${script}" type="text/javascript" defer></script>
+      <script src="${url.resourcesPath}/${script}?v=${properties.vfaAssetVersion!'1'}" type="text/javascript" defer></script>
     </#list>
   </#if>
 </head>

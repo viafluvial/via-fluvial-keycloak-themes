@@ -1,6 +1,7 @@
 <#import "template.ftl" as layout>
 <#assign vfaLogoutRedirectUrl="">
 <#assign vfaLogoutFallbackUrl="">
+<#assign vfaLogoutManualHref="">
 <#if pageRedirectUri?has_content>
   <#assign vfaLogoutRedirectUrl=pageRedirectUri>
 <#elseif (client.baseUrl)?has_content>
@@ -9,7 +10,17 @@
 <#if properties.vfaLogoutRedirectFallback?has_content>
   <#assign vfaLogoutFallbackUrl=properties.vfaLogoutRedirectFallback>
 </#if>
+<#if vfaLogoutRedirectUrl?has_content>
+  <#assign vfaLogoutManualHref=vfaLogoutRedirectUrl>
+<#elseif vfaLogoutFallbackUrl?has_content>
+  <#assign vfaLogoutManualHref=vfaLogoutFallbackUrl>
+<#else>
+  <#assign vfaLogoutManualHref=url.loginUrl>
+</#if>
 <@layout.registrationLayout displayMessage=false; section>
+  <#if section = "head">
+    <meta http-equiv="refresh" content="5;url=${vfaLogoutManualHref?html}">
+
   <#if section = "header">
     <h1 class="vfa-title">${msg("vfaLogoutTitle")}</h1>
     <p class="vfa-subtitle">${msg("vfaLogoutSubtitle")}</p>
@@ -35,7 +46,7 @@
             </p>
             <p class="vfa-text-center">
               ${msg("vfaLogoutRedirectManualPrefix")}
-              <a class="vfa-link vfa-link--accent" href="#" data-vfa-manual-redirect>${msg("vfaLogoutRedirectManualLink")}</a>
+                <a class="vfa-link vfa-link--accent" href="${vfaLogoutManualHref}" data-vfa-manual-redirect>${msg("vfaLogoutRedirectManualLink")}</a>
               ${msg("vfaLogoutRedirectManualSuffix")}
             </p>
             <div
@@ -54,11 +65,7 @@
             ${msg("doLogout")}
           </button>
         </#if>
-        <#if client?? && client.baseUrl?has_content>
-          <a class="vfa-btn vfa-btn--outline" href="${client.baseUrl}">${msg("vfaDoNotLogout")}</a>
-        <#else>
-          <button class="vfa-btn vfa-btn--outline" type="button" data-vfa-history-back>${msg("vfaDoNotLogout")}</button>
-        </#if>
+        <a class="vfa-btn vfa-btn--outline" href="${vfaLogoutManualHref}" data-vfa-history-back>${msg("vfaDoNotLogout")}</a>
       </div>
     </form>
   </#if>
