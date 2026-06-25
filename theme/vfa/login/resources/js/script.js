@@ -92,7 +92,13 @@
 
     var target = redirect.getAttribute("data-vfa-auto-redirect-url");
     var delay = Number(redirect.getAttribute("data-vfa-auto-redirect-delay")) || 5000;
+    var scope = redirect.getAttribute("data-vfa-auto-redirect-scope");
     if (!target) return;
+
+    if (scope === "logout") {
+      var path = (window.location && window.location.pathname) || "";
+      if (path.indexOf("/protocol/openid-connect/logout/") === -1) return;
+    }
 
     window.setTimeout(function () {
       window.location.assign(target);

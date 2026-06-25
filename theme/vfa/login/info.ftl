@@ -1,4 +1,14 @@
 <#import "template.ftl" as layout>
+<#assign vfaInfoRedirectUrl="">
+<#if pageRedirectUri?has_content>
+  <#assign vfaInfoRedirectUrl=pageRedirectUri>
+<#elseif actionUri?has_content>
+  <#assign vfaInfoRedirectUrl=actionUri>
+<#elseif (client.baseUrl)?has_content>
+  <#assign vfaInfoRedirectUrl=client.baseUrl>
+<#elseif properties.vfaLogoutRedirectFallback?has_content>
+  <#assign vfaInfoRedirectUrl=properties.vfaLogoutRedirectFallback>
+</#if>
 <@layout.registrationLayout displayMessage=false; section>
   <#if section = "header">
     <h1 class="vfa-title"><#if messageHeader??>${kcSanitize(msg("${messageHeader}"))?no_esc}<#else>${kcSanitize(message.summary)?no_esc}</#if></h1>
@@ -17,13 +27,23 @@
 
     <#if skipLink??>
     <#else>
-      <#if pageRedirectUri?has_content>
-        <a href="${pageRedirectUri}" class="vfa-btn vfa-btn--primary">${msg("backToApplication")}</a>
-      <#elseif actionUri?has_content>
-        <a href="${actionUri}" class="vfa-btn vfa-btn--primary">${msg("proceedWithAction")}</a>
-      <#elseif (client.baseUrl)?has_content>
-        <a href="${client.baseUrl}" class="vfa-btn vfa-btn--primary">${msg("backToApplication")}</a>
+      <#if vfaInfoRedirectUrl?has_content>
+        <a href="${vfaInfoRedirectUrl}" class="vfa-btn vfa-btn--primary">${msg("backToApplication")}</a>
       </#if>
+    </#if>
+
+    <#if vfaInfoRedirectUrl?has_content>
+      <p class="vfa-text-center vfa-mb" style="color:#6b7280;">${msg("vfaLogoutRedirectNotice", "5")}</p>
+      <p class="vfa-text-center">
+        <a class="vfa-link" href="${vfaInfoRedirectUrl}">${msg("vfaLogoutRedirectNow")}</a>
+      </p>
+      <div
+        data-vfa-auto-redirect
+        data-vfa-auto-redirect-url="${vfaInfoRedirectUrl}"
+        data-vfa-auto-redirect-delay="5000"
+        data-vfa-auto-redirect-scope="logout"
+        aria-hidden="true"
+      ></div>
     </#if>
   </#if>
 </@layout.registrationLayout>
