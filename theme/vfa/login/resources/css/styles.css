@@ -326,6 +326,18 @@ body.vfa-body {
 }
 .vfa-link:hover { text-decoration: underline; }
 .vfa-link--muted { color: var(--vfa-text-muted); font-weight: 500; }
+.vfa-link--accent {
+  color: #c99500;
+  font-weight: 700;
+}
+.vfa-link--accent:hover {
+  color: #b18300;
+}
+
+.vfa-redirect-countdown {
+  color: var(--vfa-green-deep);
+  font-weight: 800;
+}
 
 /* ------------------------------------------------------------ Divisor ---- */
 .vfa-divider {

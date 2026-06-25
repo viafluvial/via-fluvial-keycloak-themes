@@ -12,6 +12,7 @@
     initPasswordToggles();
     initPasswordStrength();
     initOtpInputs();
+    initHistoryBackLinks();
     initAutoRedirect();
   });
 
@@ -85,23 +86,100 @@
     });
   }
 
+  function initHistoryBackLinks() {
+    document.querySelectorAll("[data-vfa-history-back]").forEach(function (el) {
+      el.addEventListener("click", function (e) {
+        e.preventDefault();
+        goBackOrFallback();
+      });
+    });
+  }
+
+  function goBackOrFallback(fallbackUrl) {
+    if (document.referrer && document.referrer.indexOf("/protocol/openid-connect/logout") === -1) {
+      window.location.assign(document.referrer);
+      return;
+    }
+
+    if (window.history.length > 1) {
+      window.history.back();
+      return;
+    }
+
+    if (fallbackUrl) {
+      window.location.assign(fallbackUrl);
+    }
+  }
+
+  function bindManualRedirect(redirectTarget, fallbackTarget, useHistory) {
+    document.querySelectorAll("[data-vfa-manual-redirect]").forEach(function (el) {
+      el.addEventListener("click", function (e) {
+        e.preventDefault();
+        if (useHistory) {
+          goBackOrFallback(redirectTarget || fallbackTarget);
+          return;
+        }
+
+        if (redirectTarget) {
+          window.location.assign(redirectTarget);
+          return;
+        }
+        goBackOrFallback(fallbackTarget);
+      });
+    });
+  }
+
+  function startRedirectCountdown(delay) {
+    var countdownEls = document.querySelectorAll("[data-vfa-redirect-countdown]");
+    if (!countdownEls.length) return;
+
+    var total = Math.max(1, Math.ceil(delay / 1000));
+    var remaining = total;
+    countdownEls.forEach(function (el) { el.textContent = String(remaining); });
+
+    var interval = window.setInterval(function () {
+      remaining -= 1;
+      if (remaining < 0) {
+        window.clearInterval(interval);
+        return;
+      }
+      countdownEls.forEach(function (el) { el.textContent = String(remaining); });
+    }, 1000);
+  }
+
   /* ----------------------------------------- Redirecionamento pos-logout -- */
   function initAutoRedirect() {
     var redirect = document.querySelector("[data-vfa-auto-redirect]");
     if (!redirect) return;
 
     var target = redirect.getAttribute("data-vfa-auto-redirect-url");
+    var fallback = redirect.getAttribute("data-vfa-auto-redirect-fallback-url");
+    var useHistory = redirect.getAttribute("data-vfa-auto-redirect-use-history") === "true";
     var delay = Number(redirect.getAttribute("data-vfa-auto-redirect-delay")) || 5000;
     var scope = redirect.getAttribute("data-vfa-auto-redirect-scope");
-    if (!target) return;
 
     if (scope === "logout") {
       var path = (window.location && window.location.pathname) || "";
       if (path.indexOf("/protocol/openid-connect/logout/") === -1) return;
     }
 
+    bindManualRedirect(target, fallback, useHistory);
+    startRedirectCountdown(delay);
+
     window.setTimeout(function () {
-      window.location.assign(target);
+      if (useHistory) {
+        goBackOrFallback(target || fallback);
+        return;
+      }
+
+      if (target) {
+        window.location.assign(target);
+        return;
+      }
+
+      if (fallback) {
+        window.location.assign(fallback);
+      }
     }, delay);
   }
 })();

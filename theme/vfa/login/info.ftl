@@ -1,13 +1,15 @@
 <#import "template.ftl" as layout>
 <#assign vfaInfoRedirectUrl="">
+<#assign vfaInfoFallbackUrl="">
 <#if pageRedirectUri?has_content>
   <#assign vfaInfoRedirectUrl=pageRedirectUri>
 <#elseif actionUri?has_content>
   <#assign vfaInfoRedirectUrl=actionUri>
 <#elseif (client.baseUrl)?has_content>
   <#assign vfaInfoRedirectUrl=client.baseUrl>
-<#elseif properties.vfaLogoutRedirectFallback?has_content>
-  <#assign vfaInfoRedirectUrl=properties.vfaLogoutRedirectFallback>
+</#if>
+<#if properties.vfaLogoutRedirectFallback?has_content>
+  <#assign vfaInfoFallbackUrl=properties.vfaLogoutRedirectFallback>
 </#if>
 <@layout.registrationLayout displayMessage=false; section>
   <#if section = "header">
@@ -27,19 +29,25 @@
 
     <#if skipLink??>
     <#else>
-      <#if vfaInfoRedirectUrl?has_content>
-        <a href="${vfaInfoRedirectUrl}" class="vfa-btn vfa-btn--primary">${msg("backToApplication")}</a>
-      </#if>
+      <a href="#" class="vfa-btn vfa-btn--primary" data-vfa-manual-redirect>${msg("backToApplication")}</a>
     </#if>
 
-    <#if vfaInfoRedirectUrl?has_content>
-      <p class="vfa-text-center vfa-mb" style="color:#6b7280;">${msg("vfaLogoutRedirectNotice", "5")}</p>
+    <#if vfaInfoRedirectUrl?has_content || vfaInfoFallbackUrl?has_content>
+      <p class="vfa-text-center vfa-mb" style="color:#6b7280;">
+        ${msg("vfaLogoutRedirectNoticePrefix")}
+        <strong class="vfa-redirect-countdown" data-vfa-redirect-countdown>5</strong>
+        ${msg("vfaLogoutRedirectNoticeSuffix")}
+      </p>
       <p class="vfa-text-center">
-        <a class="vfa-link" href="${vfaInfoRedirectUrl}">${msg("vfaLogoutRedirectNow")}</a>
+        ${msg("vfaLogoutRedirectManualPrefix")}
+        <a class="vfa-link vfa-link--accent" href="#" data-vfa-manual-redirect>${msg("vfaLogoutRedirectManualLink")}</a>
+        ${msg("vfaLogoutRedirectManualSuffix")}
       </p>
       <div
         data-vfa-auto-redirect
         data-vfa-auto-redirect-url="${vfaInfoRedirectUrl}"
+        data-vfa-auto-redirect-fallback-url="${vfaInfoFallbackUrl}"
+        data-vfa-auto-redirect-use-history="true"
         data-vfa-auto-redirect-delay="5000"
         data-vfa-auto-redirect-scope="logout"
         aria-hidden="true"
