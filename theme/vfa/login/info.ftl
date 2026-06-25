@@ -2,6 +2,7 @@
 <#assign vfaInfoRedirectUrl="">
 <#assign vfaInfoFallbackUrl="">
 <#assign vfaInfoManualHref="">
+<#assign vfaInfoLogoutDoneHref="">
 <#if pageRedirectUri?has_content>
   <#assign vfaInfoRedirectUrl=pageRedirectUri>
 <#elseif actionUri?has_content>
@@ -14,6 +15,13 @@
   <#assign vfaInfoManualHref=vfaInfoRedirectUrl>
 <#elseif vfaInfoFallbackUrl?has_content>
   <#assign vfaInfoManualHref=vfaInfoFallbackUrl>
+</#if>
+<#if vfaInfoManualHref?has_content>
+  <#if vfaInfoManualHref?contains("?")>
+    <#assign vfaInfoLogoutDoneHref=vfaInfoManualHref + "&vfa_logout=1">
+  <#else>
+    <#assign vfaInfoLogoutDoneHref=vfaInfoManualHref + "?vfa_logout=1">
+  </#if>
 </#if>
 <@layout.registrationLayout displayMessage=false; section>
   <#if section = "header">
@@ -32,8 +40,8 @@
     </p>
 
     <#if skipLink??>
-    <#elseif vfaInfoManualHref?has_content>
-      <a href="${vfaInfoManualHref}" class="vfa-btn vfa-btn--primary" data-vfa-manual-redirect>${msg("backToApplication")}</a>
+    <#elseif vfaInfoLogoutDoneHref?has_content>
+      <a href="${vfaInfoLogoutDoneHref}" class="vfa-btn vfa-btn--primary" data-vfa-manual-redirect>${msg("backToApplication")}</a>
     </#if>
 
     <#if vfaInfoRedirectUrl?has_content || vfaInfoFallbackUrl?has_content>
@@ -44,13 +52,13 @@
       </p>
       <p class="vfa-text-center">
         ${msg("vfaLogoutRedirectManualPrefix")}
-        <a class="vfa-link vfa-link--accent" href="${vfaInfoManualHref}" data-vfa-manual-redirect>${msg("vfaLogoutRedirectManualLink")}</a>
+        <a class="vfa-link vfa-link--accent" href="${vfaInfoLogoutDoneHref}" data-vfa-manual-redirect>${msg("vfaLogoutRedirectManualLink")}</a>
         ${msg("vfaLogoutRedirectManualSuffix")}
       </p>
       <div
         data-vfa-auto-redirect
-        data-vfa-auto-redirect-url="${vfaInfoRedirectUrl}"
-        data-vfa-auto-redirect-fallback-url="${vfaInfoFallbackUrl}"
+        data-vfa-auto-redirect-url="${vfaInfoLogoutDoneHref}"
+        data-vfa-auto-redirect-fallback-url="${vfaInfoLogoutDoneHref}"
         data-vfa-auto-redirect-delay="5000"
         data-vfa-auto-redirect-scope="logout"
         aria-hidden="true"
