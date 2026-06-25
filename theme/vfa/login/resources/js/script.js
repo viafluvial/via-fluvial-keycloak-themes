@@ -88,16 +88,24 @@
 
   function initHistoryBackLinks() {
     document.querySelectorAll("[data-vfa-history-back]").forEach(function (el) {
+      var steps = Number(el.getAttribute("data-vfa-history-back-steps")) || 1;
       el.addEventListener("click", function (e) {
         e.preventDefault();
-        goBackOrFallback();
+        goBackOrFallback(undefined, steps);
       });
     });
   }
 
-  function goBackOrFallback(fallbackUrl) {
+  function goBackOrFallback(fallbackUrl, steps) {
+    var backSteps = Math.max(1, Number(steps) || 1);
+
     if (document.referrer && document.referrer.indexOf("/protocol/openid-connect/logout") === -1) {
       window.location.assign(document.referrer);
+      return;
+    }
+
+    if (window.history.length > backSteps) {
+      window.history.go(-backSteps);
       return;
     }
 
@@ -111,12 +119,12 @@
     }
   }
 
-  function bindManualRedirect(redirectTarget, fallbackTarget, useHistory) {
+  function bindManualRedirect(redirectTarget, fallbackTarget, useHistory, historySteps) {
     document.querySelectorAll("[data-vfa-manual-redirect]").forEach(function (el) {
       el.addEventListener("click", function (e) {
         e.preventDefault();
         if (useHistory) {
-          goBackOrFallback(redirectTarget || fallbackTarget);
+          goBackOrFallback(redirectTarget || fallbackTarget, historySteps);
           return;
         }
 
@@ -157,18 +165,19 @@
     var useHistory = redirect.getAttribute("data-vfa-auto-redirect-use-history") === "true";
     var delay = Number(redirect.getAttribute("data-vfa-auto-redirect-delay")) || 5000;
     var scope = redirect.getAttribute("data-vfa-auto-redirect-scope");
+    var historySteps = Number(redirect.getAttribute("data-vfa-auto-redirect-history-steps")) || (scope === "logout" ? 2 : 1);
 
     if (scope === "logout") {
       var path = (window.location && window.location.pathname) || "";
       if (path.indexOf("/protocol/openid-connect/logout/") === -1) return;
     }
 
-    bindManualRedirect(target, fallback, useHistory);
+    bindManualRedirect(target, fallback, useHistory, historySteps);
     startRedirectCountdown(delay);
 
     window.setTimeout(function () {
       if (useHistory) {
-        goBackOrFallback(target || fallback);
+        goBackOrFallback(target || fallback, historySteps);
         return;
       }
 
