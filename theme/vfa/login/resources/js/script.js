@@ -12,7 +12,6 @@
     initPasswordToggles();
     initPasswordStrength();
     initOtpInputs();
-    initHistoryBackLinks();
     initAutoRedirect();
   });
 
@@ -86,58 +85,13 @@
     });
   }
 
-  function initHistoryBackLinks() {
-    document.querySelectorAll("[data-vfa-history-back]").forEach(function (el) {
-      var steps = Number(el.getAttribute("data-vfa-history-back-steps")) || 1;
-      el.addEventListener("click", function (e) {
-        e.preventDefault();
-        goBackOrFallback(undefined, steps);
-      });
-    });
-  }
-
-  function goBackOrFallback(fallbackUrl, steps) {
-    var backSteps = Math.max(1, Number(steps) || 1);
-
-    if (window.history.length > backSteps) {
-      window.history.go(-backSteps);
-      return;
-    }
-
-    if (window.history.length > 1) {
-      window.history.back();
-      return;
-    }
-
-    if (document.referrer && document.referrer.indexOf("/protocol/openid-connect/logout") === -1) {
-      window.location.assign(document.referrer);
-      return;
-    }
-
-    if (window.history.length > 1) {
-      window.history.back();
-      return;
-    }
-
-    if (fallbackUrl) {
-      window.location.assign(fallbackUrl);
-    }
-  }
-
-  function bindManualRedirect(redirectTarget, fallbackTarget, useHistory, historySteps) {
+  function bindManualRedirect(redirectTarget, fallbackTarget) {
     document.querySelectorAll("[data-vfa-manual-redirect]").forEach(function (el) {
       el.addEventListener("click", function (e) {
         e.preventDefault();
-        if (useHistory) {
-          goBackOrFallback(redirectTarget || fallbackTarget, historySteps);
-          return;
-        }
-
-        if (redirectTarget) {
-          window.location.assign(redirectTarget);
-          return;
-        }
-        goBackOrFallback(fallbackTarget);
+        var destination = redirectTarget || fallbackTarget;
+        if (!destination) return;
+        window.location.assign(destination);
       });
     });
   }
@@ -167,33 +121,21 @@
 
     var target = redirect.getAttribute("data-vfa-auto-redirect-url");
     var fallback = redirect.getAttribute("data-vfa-auto-redirect-fallback-url");
-    var useHistory = redirect.getAttribute("data-vfa-auto-redirect-use-history") === "true";
     var delay = Number(redirect.getAttribute("data-vfa-auto-redirect-delay")) || 5000;
     var scope = redirect.getAttribute("data-vfa-auto-redirect-scope");
-    var historySteps = Number(redirect.getAttribute("data-vfa-auto-redirect-history-steps")) || (scope === "logout" ? 2 : 1);
 
     if (scope === "logout") {
       var path = (window.location && window.location.pathname) || "";
       if (path.indexOf("/protocol/openid-connect/logout/") === -1) return;
     }
 
-    bindManualRedirect(target, fallback, useHistory, historySteps);
+    bindManualRedirect(target, fallback);
     startRedirectCountdown(delay);
 
     window.setTimeout(function () {
-      if (useHistory) {
-        goBackOrFallback(target || fallback, historySteps);
-        return;
-      }
-
-      if (target) {
-        window.location.assign(target);
-        return;
-      }
-
-      if (fallback) {
-        window.location.assign(fallback);
-      }
+      var destination = target || fallback;
+      if (!destination) return;
+      window.location.assign(destination);
     }, delay);
   }
 })();

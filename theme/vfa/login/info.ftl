@@ -55,8 +55,6 @@
         data-vfa-auto-redirect
         data-vfa-auto-redirect-url="${vfaInfoRedirectUrl}"
         data-vfa-auto-redirect-fallback-url="${vfaInfoFallbackUrl}"
-        data-vfa-auto-redirect-use-history="true"
-        data-vfa-auto-redirect-history-steps="2"
         data-vfa-auto-redirect-delay="5000"
         data-vfa-auto-redirect-scope="logout"
         aria-hidden="true"

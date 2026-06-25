@@ -50,8 +50,6 @@
               data-vfa-auto-redirect
               data-vfa-auto-redirect-url="${vfaLogoutRedirectUrl}"
               data-vfa-auto-redirect-fallback-url="${vfaLogoutFallbackUrl}"
-              data-vfa-auto-redirect-use-history="true"
-                data-vfa-auto-redirect-history-steps="2"
               data-vfa-auto-redirect-delay="5000"
               data-vfa-auto-redirect-scope="logout"
               aria-hidden="true"
@@ -63,7 +61,7 @@
             ${msg("doLogout")}
           </button>
         </#if>
-        <a class="vfa-btn vfa-btn--outline" href="${vfaLogoutManualHref}" data-vfa-history-back data-vfa-history-back-steps="2">${msg("vfaDoNotLogout")}</a>
+        <a class="vfa-btn vfa-btn--outline" href="${vfaLogoutManualHref}">${msg("vfaDoNotLogout")}</a>
       </div>
     </form>
   </#if>
