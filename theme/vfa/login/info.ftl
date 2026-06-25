@@ -23,7 +23,7 @@
   <#if section = "head">
     <meta http-equiv="refresh" content="5;url=${vfaInfoManualHref?html}">
 
-  <#if section = "header">
+  <#elseif section = "header">
     <h1 class="vfa-title"><#if messageHeader??>${kcSanitize(msg("${messageHeader}"))?no_esc}<#else>${kcSanitize(message.summary)?no_esc}</#if></h1>
 
   <#elseif section = "form">

@@ -21,7 +21,7 @@
   <#if section = "head">
     <meta http-equiv="refresh" content="5;url=${vfaLogoutManualHref?html}">
 
-  <#if section = "header">
+  <#elseif section = "header">
     <h1 class="vfa-title">${msg("vfaLogoutTitle")}</h1>
     <p class="vfa-subtitle">${msg("vfaLogoutSubtitle")}</p>
 
