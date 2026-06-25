@@ -12,6 +12,7 @@
     initPasswordToggles();
     initPasswordStrength();
     initOtpInputs();
+    initAutoRedirect();
   });
 
   /* ----------------------------------------------------- Mostrar senha --- */
@@ -82,5 +83,19 @@
         sync();
       });
     });
+  }
+
+  /* ----------------------------------------- Redirecionamento pos-logout -- */
+  function initAutoRedirect() {
+    var redirect = document.querySelector("[data-vfa-auto-redirect]");
+    if (!redirect) return;
+
+    var target = redirect.getAttribute("data-vfa-auto-redirect-url");
+    var delay = Number(redirect.getAttribute("data-vfa-auto-redirect-delay")) || 5000;
+    if (!target) return;
+
+    window.setTimeout(function () {
+      window.location.assign(target);
+    }, delay);
   }
 })();

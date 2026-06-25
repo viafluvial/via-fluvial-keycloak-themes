@@ -1,4 +1,12 @@
 <#import "template.ftl" as layout>
+<#assign vfaLogoutRedirectUrl="">
+<#if pageRedirectUri?has_content>
+  <#assign vfaLogoutRedirectUrl=pageRedirectUri>
+<#elseif (client.baseUrl)?has_content>
+  <#assign vfaLogoutRedirectUrl=client.baseUrl>
+<#elseif properties.vfaLogoutRedirectFallback?has_content>
+  <#assign vfaLogoutRedirectUrl=properties.vfaLogoutRedirectFallback>
+</#if>
 <@layout.registrationLayout displayMessage=false; section>
   <#if section = "header">
     <h1 class="vfa-title">${msg("vfaLogoutTitle")}</h1>
@@ -17,6 +25,18 @@
       <input type="hidden" name="session_code" value="${logoutConfirm.code}"/>
       <div class="vfa-space">
         <#if logoutConfirm.skipLink>
+          <#if vfaLogoutRedirectUrl?has_content>
+            <p class="vfa-text-center vfa-mb" style="color:#6b7280;">${msg("vfaLogoutRedirectNotice", "5")}</p>
+            <p class="vfa-text-center">
+              <a class="vfa-link" href="${vfaLogoutRedirectUrl}">${msg("vfaLogoutRedirectNow")}</a>
+            </p>
+            <div
+              data-vfa-auto-redirect
+              data-vfa-auto-redirect-url="${vfaLogoutRedirectUrl}"
+              data-vfa-auto-redirect-delay="5000"
+              aria-hidden="true"
+            ></div>
+          </#if>
         <#else>
           <button class="vfa-btn vfa-btn--primary" name="confirmLogout" id="kc-logout" type="submit">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1"/></svg>
