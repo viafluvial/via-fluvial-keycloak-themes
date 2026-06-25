@@ -99,13 +99,13 @@
   function goBackOrFallback(fallbackUrl, steps) {
     var backSteps = Math.max(1, Number(steps) || 1);
 
-    if (document.referrer && document.referrer.indexOf("/protocol/openid-connect/logout") === -1) {
-      window.location.assign(document.referrer);
+    if (window.history.length > backSteps) {
+      window.history.go(-backSteps);
       return;
     }
 
-    if (window.history.length > backSteps) {
-      window.history.go(-backSteps);
+    if (document.referrer && document.referrer.indexOf("/protocol/openid-connect/logout") === -1) {
+      window.location.assign(document.referrer);
       return;
     }
 
