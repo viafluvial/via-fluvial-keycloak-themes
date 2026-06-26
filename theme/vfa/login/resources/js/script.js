@@ -18,8 +18,35 @@
 
   /* ----------------------------------- Perfil (first broker/update profile) */
   function initProfileFieldEnhancements() {
+    initCpfMaskForProfile();
     initBrazilPhoneMaskForProfile();
     initBirthDatePickerForProfile();
+  }
+
+  function initCpfMaskForProfile() {
+    var cpfInput = findFirstInput([
+      "#cpf",
+      "input[name='cpf']",
+      "input[name='user.attributes.cpf']",
+      "input[id*='cpf' i]",
+      "input[name*='cpf' i]"
+    ]);
+
+    if (!cpfInput) return;
+
+    cpfInput.setAttribute("type", "text");
+    cpfInput.setAttribute("inputmode", "numeric");
+    cpfInput.setAttribute("autocomplete", "off");
+    cpfInput.setAttribute("placeholder", "000.000.000-00");
+    cpfInput.setAttribute("maxlength", "14");
+
+    if (cpfInput.value) {
+      cpfInput.value = formatCpf(cpfInput.value);
+    }
+
+    cpfInput.addEventListener("input", function () {
+      cpfInput.value = formatCpf(cpfInput.value);
+    });
   }
 
   function initBrazilPhoneMaskForProfile() {
@@ -324,6 +351,27 @@
     }
 
     return value;
+  }
+
+  function formatCpf(rawValue) {
+    var digits = String(rawValue || "").replace(/\D/g, "").slice(0, 11);
+    if (!digits) return "";
+
+    if (digits.length <= 3) return digits;
+    if (digits.length <= 6) return digits.slice(0, 3) + "." + digits.slice(3);
+    if (digits.length <= 9) {
+      return digits.slice(0, 3) + "." + digits.slice(3, 6) + "." + digits.slice(6);
+    }
+
+    return (
+      digits.slice(0, 3) +
+      "." +
+      digits.slice(3, 6) +
+      "." +
+      digits.slice(6, 9) +
+      "-" +
+      digits.slice(9)
+    );
   }
 
   function parseIsoDate(value) {
