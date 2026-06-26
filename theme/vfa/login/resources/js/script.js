@@ -22,6 +22,7 @@
     initCpfMaskForProfile();
     initBrazilPhoneMaskForProfile();
     initBirthDatePickerForProfile();
+    initProfileSubmitSanitizers();
   }
 
   function removeSocialNameFieldFromProfile() {
@@ -109,7 +110,7 @@
     }
 
     function trySetup() {
-      var cpfInput = findFirstInput(selectors);
+      var cpfInput = findFirstInput(selectors) || findInputByLabelText(["cpf"]);
       if (cpfInput) {
         setupCpfInput(cpfInput);
         return;
@@ -122,6 +123,65 @@
     }
 
     trySetup();
+  }
+
+  function initProfileSubmitSanitizers() {
+    var forms = [
+      document.getElementById("kc-update-profile-form"),
+      document.getElementById("kc-register-form"),
+      document.getElementById("kc-idp-review-profile-form")
+    ].filter(Boolean);
+
+    forms.forEach(function (form) {
+      if (form.dataset.vfaSubmitSanitizerReady === "1") return;
+      form.dataset.vfaSubmitSanitizerReady = "1";
+
+      form.addEventListener("submit", function () {
+        var phoneInput =
+          findFirstInput([
+            "#phone",
+            "input[name='phone']",
+            "input[name='user.attributes.phone']",
+            "input[id*='phone' i]",
+            "input[name*='phone' i]",
+            "input[id*='telefone' i]",
+            "input[name*='telefone' i]"
+          ]) || findInputByLabelText(["telefone", "phone"]);
+
+        if (phoneInput) {
+          phoneInput.value = String(phoneInput.value || "").replace(/\D/g, "");
+        }
+
+        var cpfInput =
+          findFirstInput([
+            "#cpf",
+            "input[name='cpf']",
+            "input[name='user.attributes.cpf']",
+            "input[id*='cpf' i]",
+            "input[name*='cpf' i]"
+          ]) || findInputByLabelText(["cpf"]);
+
+        if (cpfInput) {
+          cpfInput.value = String(cpfInput.value || "").replace(/\D/g, "").slice(0, 11);
+        }
+
+        var birthDateInput =
+          findFirstInput([
+            "#birthDate",
+            "input[name='birthDate']",
+            "input[name='user.attributes.birthDate']",
+            "input[name='user.attributes.dateOfBirth']",
+            "input[id*='birth' i]",
+            "input[name*='birth' i]",
+            "input[id*='nascimento' i]",
+            "input[name*='nascimento' i]"
+          ]) || findInputByLabelText(["data de nascimento", "nascimento", "birth"]);
+
+        if (birthDateInput) {
+          birthDateInput.value = normalizeDateToBr(birthDateInput.value);
+        }
+      });
+    });
   }
 
   function initBrazilPhoneMaskForProfile() {
@@ -373,6 +433,47 @@
     return null;
   }
 
+  function findInputByLabelText(labelCandidates) {
+    var labels = document.querySelectorAll("label");
+    for (var i = 0; i < labels.length; i += 1) {
+      var label = labels[i];
+      var labelText = normalizeText(label.textContent || "");
+      var matches = labelCandidates.some(function (candidate) {
+        return labelText.indexOf(normalizeText(candidate)) !== -1;
+      });
+      if (!matches) continue;
+
+      var forId = label.getAttribute("for");
+      if (forId) {
+        var byFor = document.getElementById(forId);
+        if (byFor && byFor.tagName === "INPUT") return byFor;
+      }
+
+      var nested = label.querySelector("input");
+      if (nested) return nested;
+
+      var group =
+        label.closest(".pf-v5-c-form__group") ||
+        label.closest(".pf-c-form__group") ||
+        label.closest(".vfa-form-group") ||
+        label.closest(".form-group");
+
+      if (group) {
+        var inGroup = group.querySelector("input");
+        if (inGroup) return inGroup;
+      }
+    }
+    return null;
+  }
+
+  function normalizeText(value) {
+    return String(value || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim();
+  }
+
   function formatBrazilPhoneWithCountry(rawValue) {
     var digits = String(rawValue || "").replace(/\D/g, "");
     if (!digits) return "";
@@ -423,6 +524,22 @@
     var brMatch = value.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
     if (brMatch) {
       return brMatch[3] + "-" + brMatch[2] + "-" + brMatch[1];
+    }
+
+    return value;
+  }
+
+  function normalizeDateToBr(rawValue) {
+    var value = String(rawValue || "").trim();
+    if (!value) return "";
+
+    if (/^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
+      return value;
+    }
+
+    var isoMatch = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (isoMatch) {
+      return isoMatch[3] + "/" + isoMatch[2] + "/" + isoMatch[1];
     }
 
     return value;
