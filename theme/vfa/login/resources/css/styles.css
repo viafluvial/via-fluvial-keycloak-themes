@@ -208,9 +208,19 @@ body.vfa-body {
 
 /* User profile fields rendered by Keycloak macros (first broker login/update profile).
    Keep required marker on same line as the label text. */
+.vfa-form .pf-v5-c-form__group-label,
+.vfa-form .pf-c-form__group-label,
+.vfa-form .kcLabelWrapperClass,
+.vfa-form .vfa-label-wrapper {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.2rem;
+  flex-wrap: nowrap;
+}
+
 .vfa-form .pf-v5-c-form__label,
 .vfa-form .pf-c-form__label {
-  display: inline-flex;
+  display: inline-flex !important;
   align-items: center;
   gap: 0.2rem;
   white-space: nowrap;
@@ -220,8 +230,9 @@ body.vfa-body {
 .vfa-form .pf-c-form__label-text,
 .vfa-form .pf-v5-c-form__label-required,
 .vfa-form .pf-c-form__label-required {
-  display: inline;
+  display: inline !important;
   line-height: 1;
+  margin: 0;
 }
 
 .vfa-form .pf-v5-c-form__label-required,
