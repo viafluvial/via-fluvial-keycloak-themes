@@ -244,6 +244,21 @@ body.vfa-body {
   color: #ef4444 !important;
 }
 
+/* PatternFly tokens + pseudo-elements used by some Keycloak versions */
+.vfa-form,
+.vfa-form .pf-v5-c-form,
+.vfa-form .pf-c-form {
+  --pf-v5-c-form__label-required-color: #ef4444;
+  --pf-c-form__label-required-color: #ef4444;
+}
+
+.vfa-form .pf-v5-c-form__label-required::before,
+.vfa-form .pf-c-form__label-required::before,
+.vfa-form .pf-v5-c-form__label-asterisk::before,
+.vfa-form .pf-c-form__label-asterisk::before {
+  color: #ef4444 !important;
+}
+
 .vfa-input, .vfa-input--lg, input[type="text"].vfa-input, input[type="password"], input[type="email"] {
   width: 100%;
   padding: 0.7rem 0.95rem;
@@ -260,6 +275,132 @@ body.vfa-body {
   outline: none;
   border-color: var(--vfa-green);
   box-shadow: var(--vfa-ring);
+}
+
+.vfa-date-picker {
+  position: relative;
+  width: 100%;
+}
+
+.vfa-date-picker__trigger {
+  width: 100%;
+  height: 44px;
+  border: 1px solid var(--vfa-border);
+  border-radius: var(--vfa-radius-sm);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.95rem;
+  color: var(--vfa-text);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.vfa-date-picker__trigger:focus {
+  outline: none;
+  border-color: var(--vfa-green);
+  box-shadow: var(--vfa-ring);
+}
+
+.vfa-date-picker__text {
+  color: var(--vfa-text-soft);
+}
+
+.vfa-date-picker__icon {
+  color: #111827;
+  display: inline-flex;
+}
+
+.vfa-date-picker__popup {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 60;
+  width: 300px;
+  max-width: min(300px, 96vw);
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.16);
+  padding: 0.75rem;
+}
+
+.vfa-date-picker__header {
+  display: grid;
+  grid-template-columns: 32px 1fr 1fr 32px;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.vfa-date-picker__nav {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #fff;
+  color: #374151;
+  cursor: pointer;
+}
+
+.vfa-date-picker__nav:hover {
+  background: #f3f4f6;
+}
+
+.vfa-date-picker__select {
+  height: 32px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 0.8rem;
+  padding: 0 0.4rem;
+  color: #111827;
+}
+
+.vfa-date-picker__weekdays,
+.vfa-date-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.vfa-date-picker__weekdays div {
+  text-align: center;
+  font-size: 0.68rem;
+  color: #6b7280;
+  padding: 0.2rem 0;
+}
+
+.vfa-date-picker__day {
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #111827;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.vfa-date-picker__day:hover {
+  background: #f3f4f6;
+}
+
+.vfa-date-picker__day--selected,
+.vfa-date-picker__day--selected:hover {
+  background: #1A5F3B;
+  color: #fff;
+}
+
+.vfa-date-picker__day--disabled,
+.vfa-date-picker__day--disabled:hover {
+  color: #cbd5e1;
+  background: transparent;
+  cursor: not-allowed;
+}
+
+.vfa-date-picker__day--empty {
+  pointer-events: none;
 }
 .vfa-input--error, .vfa-form-group--error .vfa-input { border-color: #ef4444; }
 .vfa-input-error {
