@@ -62,29 +62,66 @@
   }
 
   function initCpfMaskForProfile() {
-    var cpfInput = findFirstInput([
+    var selectors = [
       "#cpf",
       "input[name='cpf']",
       "input[name='user.attributes.cpf']",
       "input[id*='cpf' i]",
       "input[name*='cpf' i]"
-    ]);
+    ];
 
-    if (!cpfInput) return;
+    var retries = 0;
+    var maxRetries = 10;
 
-    cpfInput.setAttribute("type", "text");
-    cpfInput.setAttribute("inputmode", "numeric");
-    cpfInput.setAttribute("autocomplete", "off");
-    cpfInput.setAttribute("placeholder", "000.000.000-00");
-    cpfInput.setAttribute("maxlength", "14");
-
-    if (cpfInput.value) {
-      cpfInput.value = formatCpf(cpfInput.value);
+    function applyMask(input) {
+      if (!input) return;
+      input.value = formatCpf(input.value);
     }
 
-    cpfInput.addEventListener("input", function () {
-      cpfInput.value = formatCpf(cpfInput.value);
-    });
+    function setupCpfInput(cpfInput) {
+      if (!cpfInput || cpfInput.dataset.vfaCpfMaskReady === "1") return;
+      cpfInput.dataset.vfaCpfMaskReady = "1";
+
+      cpfInput.setAttribute("type", "text");
+      cpfInput.setAttribute("inputmode", "numeric");
+      cpfInput.setAttribute("autocomplete", "off");
+      cpfInput.setAttribute("placeholder", "000.000.000-00");
+      cpfInput.setAttribute("maxlength", "14");
+
+      applyMask(cpfInput);
+
+      cpfInput.addEventListener("input", function () {
+        applyMask(cpfInput);
+      });
+
+      cpfInput.addEventListener("change", function () {
+        applyMask(cpfInput);
+      });
+
+      cpfInput.addEventListener("blur", function () {
+        applyMask(cpfInput);
+      });
+
+      // Some browsers populate saved values after DOMContentLoaded.
+      window.setTimeout(function () { applyMask(cpfInput); }, 50);
+      window.setTimeout(function () { applyMask(cpfInput); }, 300);
+      window.setTimeout(function () { applyMask(cpfInput); }, 1000);
+    }
+
+    function trySetup() {
+      var cpfInput = findFirstInput(selectors);
+      if (cpfInput) {
+        setupCpfInput(cpfInput);
+        return;
+      }
+
+      retries += 1;
+      if (retries <= maxRetries) {
+        window.setTimeout(trySetup, 150);
+      }
+    }
+
+    trySetup();
   }
 
   function initBrazilPhoneMaskForProfile() {
