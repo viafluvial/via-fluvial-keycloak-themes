@@ -18,9 +18,47 @@
 
   /* ----------------------------------- Perfil (first broker/update profile) */
   function initProfileFieldEnhancements() {
+    removeSocialNameFieldFromProfile();
     initCpfMaskForProfile();
     initBrazilPhoneMaskForProfile();
     initBirthDatePickerForProfile();
+  }
+
+  function removeSocialNameFieldFromProfile() {
+    var socialInput = findFirstInput([
+      "#socialName",
+      "input[name='socialName']",
+      "input[name='user.attributes.socialName']",
+      "input[id*='social' i]",
+      "input[name*='social' i]"
+    ]);
+
+    if (socialInput) {
+      removeClosestFieldGroup(socialInput);
+      return;
+    }
+
+    // Fallback by visible label text when input identifiers vary.
+    var labels = document.querySelectorAll("label");
+    for (var i = 0; i < labels.length; i += 1) {
+      var text = String(labels[i].textContent || "").trim().toLowerCase();
+      if (text.indexOf("nome social") !== -1) {
+        removeClosestFieldGroup(labels[i]);
+        return;
+      }
+    }
+  }
+
+  function removeClosestFieldGroup(element) {
+    var group =
+      element.closest(".pf-v5-c-form__group") ||
+      element.closest(".pf-c-form__group") ||
+      element.closest(".vfa-form-group") ||
+      element.closest(".form-group");
+
+    if (group && group.parentNode) {
+      group.parentNode.removeChild(group);
+    }
   }
 
   function initCpfMaskForProfile() {
