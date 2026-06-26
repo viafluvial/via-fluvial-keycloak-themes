@@ -13,7 +13,138 @@
     initPasswordStrength();
     initOtpInputs();
     initAutoRedirect();
+    initProfileFieldEnhancements();
   });
+
+  /* ----------------------------------- Perfil (first broker/update profile) */
+  function initProfileFieldEnhancements() {
+    initBrazilPhoneMaskForProfile();
+    initBirthDatePickerForProfile();
+  }
+
+  function initBrazilPhoneMaskForProfile() {
+    var phoneInput = findFirstInput([
+      "#phone",
+      "input[name='phone']",
+      "input[name='user.attributes.phone']",
+      "input[id*='phone' i]",
+      "input[name*='phone' i]",
+      "input[id*='telefone' i]",
+      "input[name*='telefone' i]"
+    ]);
+
+    if (!phoneInput) return;
+
+    phoneInput.setAttribute("type", "tel");
+    phoneInput.setAttribute("inputmode", "numeric");
+    phoneInput.setAttribute("autocomplete", "tel");
+    phoneInput.setAttribute("placeholder", "+55 (92) 99999-9999");
+
+    if (phoneInput.value) {
+      phoneInput.value = formatBrazilPhoneWithCountry(phoneInput.value);
+    }
+
+    phoneInput.addEventListener("input", function () {
+      phoneInput.value = formatBrazilPhoneWithCountry(phoneInput.value);
+    });
+  }
+
+  function initBirthDatePickerForProfile() {
+    var birthDateInput = findFirstInput([
+      "#birthDate",
+      "input[name='birthDate']",
+      "input[name='user.attributes.birthDate']",
+      "input[name='user.attributes.dateOfBirth']",
+      "input[id*='birth' i]",
+      "input[name*='birth' i]",
+      "input[id*='nascimento' i]",
+      "input[name*='nascimento' i]"
+    ]);
+
+    if (!birthDateInput) return;
+
+    // Native date input gives browser datepicker with month/year navigation.
+    birthDateInput.setAttribute("type", "date");
+    birthDateInput.setAttribute("inputmode", "none");
+    birthDateInput.setAttribute("autocomplete", "bday");
+
+    var today = new Date();
+    var maxDate = [
+      today.getFullYear(),
+      String(today.getMonth() + 1).padStart(2, "0"),
+      String(today.getDate()).padStart(2, "0")
+    ].join("-");
+    birthDateInput.setAttribute("max", maxDate);
+
+    if (birthDateInput.value) {
+      birthDateInput.value = normalizeDateToIso(birthDateInput.value);
+    }
+  }
+
+  function findFirstInput(selectors) {
+    for (var i = 0; i < selectors.length; i += 1) {
+      var el = document.querySelector(selectors[i]);
+      if (el && el.tagName === "INPUT") {
+        return el;
+      }
+    }
+    return null;
+  }
+
+  function formatBrazilPhoneWithCountry(rawValue) {
+    var digits = String(rawValue || "").replace(/\D/g, "");
+    if (!digits) return "";
+
+    if (digits.startsWith("55")) {
+      digits = digits.slice(2);
+    }
+
+    if (digits.length > 11) {
+      digits = digits.slice(0, 11);
+    }
+
+    var area = digits.slice(0, 2);
+    var subscriber = digits.slice(2);
+
+    var formatted = "+55";
+    if (area) {
+      formatted += " (" + area;
+      if (area.length === 2) {
+        formatted += ")";
+      }
+    }
+
+    if (subscriber.length > 0) {
+      formatted += " ";
+      if (subscriber.length <= 4) {
+        formatted += subscriber;
+      } else if (subscriber.length <= 8) {
+        formatted += subscriber.slice(0, 4) + "-" + subscriber.slice(4);
+      } else {
+        formatted += subscriber.slice(0, 5) + "-" + subscriber.slice(5);
+      }
+    }
+
+    return formatted;
+  }
+
+  function normalizeDateToIso(rawValue) {
+    var value = String(rawValue || "").trim();
+    if (!value) return "";
+
+    // Already ISO (yyyy-mm-dd)
+    if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+      return value;
+    }
+
+    // dd/mm/yyyy -> yyyy-mm-dd
+    var brMatch = value.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if (brMatch) {
+      return brMatch[3] + "-" + brMatch[2] + "-" + brMatch[1];
+    }
+
+    return value;
+  }
 
   /* ----------------------------------------------------- Mostrar senha --- */
   function initPasswordToggles() {

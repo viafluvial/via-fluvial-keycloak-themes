@@ -206,6 +206,33 @@ body.vfa-body {
   vertical-align: baseline;
 }
 
+/* User profile fields rendered by Keycloak macros (first broker login/update profile).
+   Keep required marker on same line as the label text. */
+.vfa-form .pf-v5-c-form__label,
+.vfa-form .pf-c-form__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  white-space: nowrap;
+}
+
+.vfa-form .pf-v5-c-form__label-text,
+.vfa-form .pf-c-form__label-text,
+.vfa-form .pf-v5-c-form__label-required,
+.vfa-form .pf-c-form__label-required {
+  display: inline;
+  line-height: 1;
+}
+
+.vfa-form .pf-v5-c-form__label-required,
+.vfa-form .pf-c-form__label-required,
+.vfa-form .pf-v5-c-form__label-asterisk,
+.vfa-form .pf-c-form__label-asterisk,
+.vfa-form .required,
+.vfa-form .vfa-required {
+  color: #ef4444 !important;
+}
+
 .vfa-input, .vfa-input--lg, input[type="text"].vfa-input, input[type="password"], input[type="email"] {
   width: 100%;
   padding: 0.7rem 0.95rem;
