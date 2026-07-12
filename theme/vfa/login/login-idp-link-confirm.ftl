@@ -17,8 +17,8 @@
 
     <form id="kc-register-form" class="vfa-form" action="${url.loginAction}" method="post">
       <div class="vfa-space">
-        <button type="submit" class="vfa-btn vfa-btn--primary" name="submitAction" id="updateProfile" value="updateProfile">${msg("confirmLinkIdpContinue")}</button>
-        <button type="submit" class="vfa-btn vfa-btn--outline" name="submitAction" id="linkAccount" value="linkAccount">${msg("confirmLinkIdpReviewProfile")}</button>
+        <button type="submit" class="vfa-btn vfa-btn--primary" name="submitAction" id="linkAccount" value="linkAccount">${msg("confirmLinkIdpContinue")}</button>
+        <button type="submit" class="vfa-btn vfa-btn--outline" name="submitAction" id="updateProfile" value="updateProfile">${msg("confirmLinkIdpReviewProfile")}</button>
       </div>
     </form>
   </#if>
