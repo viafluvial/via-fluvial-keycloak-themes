@@ -61,6 +61,7 @@
       <#assign hasGoogle=false>
       <#assign hasFacebook=false>
       <#assign hasInstagram=false>
+      <#assign hasAmazon=false>
       <div class="vfa-divider"><span>${msg("vfaContinueWith")}</span></div>
       <ul class="vfa-social-list">
         <#if social?? && social.providers?has_content>
@@ -81,9 +82,10 @@
             <#if providerAlias?contains("google")><#assign hasGoogle=true></#if>
             <#if providerAlias?contains("facebook")><#assign hasFacebook=true></#if>
             <#if providerAlias?contains("instagram")><#assign hasInstagram=true></#if>
+            <#if providerAlias?contains("amazon")><#assign hasAmazon=true></#if>
             <li>
                 <a id="social-${p.alias}" class="vfa-btn vfa-btn--social" type="button" href="${vfaSocialHref}">
-                <#if providerAlias?contains("google") || providerAlias?contains("facebook") || providerAlias?contains("instagram")>
+                <#if providerAlias?contains("google") || providerAlias?contains("facebook") || providerAlias?contains("instagram") || providerAlias?contains("amazon")>
                   <@socialIcon alias=p.alias/>
                 <#elseif p.iconClasses?has_content>
                   <i class="${p.iconClasses}" aria-hidden="true"></i>
@@ -121,6 +123,14 @@
             </a>
           </li>
         </#if>
+        <#if !hasAmazon>
+          <li>
+            <a id="social-amazon-model" class="vfa-btn vfa-btn--social" type="button" href="#" onclick="return false;">
+              <@socialIcon alias="amazon"/>
+              <span class="vfa-social-name">${msg("vfaContinueWithProvider", "Amazon")}</span>
+            </a>
+          </li>
+        </#if>
       </ul>
     </#if>
 
@@ -142,6 +152,12 @@
     <svg viewBox="0 0 24 24" width="20" height="20" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
   <#elseif alias?lower_case?contains("instagram")>
     <svg viewBox="0 0 24 24" width="20" height="20"><defs><radialGradient id="ig-${alias}" cx="30%" cy="107%"><stop offset="0%" stop-color="#fdf497"/><stop offset="5%" stop-color="#fdf497"/><stop offset="45%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="90%" stop-color="#285AEB"/></radialGradient></defs><path fill="url(#ig-${alias})" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+  <#elseif alias?lower_case?contains("amazon")>
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true">
+      <path d="M5.2 16.4c2.3 1.5 5.1 2.3 7.8 2.3 2.2 0 4.4-.5 6.4-1.5.3-.2.7 0 .4.3-2.1 1.9-4.9 2.9-7.8 2.9-2.9 0-5.7-1.1-7.9-3.1-.2-.2 0-.6.3-.4z" fill="#FF9900"/>
+      <path d="M19.3 16.8c-.3-.4-2-.2-2.7-.1-.2 0-.2-.2-.1-.3.7-.5 2-.4 2.8-.3.8.1 2 .4 2.1.8.1.4-.5 1.9-1.1 2.6-.1.1-.3.1-.2-.1.2-.5.7-1.6.5-2z" fill="#FF9900"/>
+      <path d="M8.4 8.3h1.9l2.6 6.4h-1.8l-.5-1.3H8l-.5 1.3H5.8l2.6-6.4zm.2 3.8h1.7l-.8-2.3-.9 2.3zM14 8.3h1.7v5h2.8v1.4H14V8.3z" fill="#111827"/>
+    </svg>
   <#else>
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v4M10 14 21 3M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>
   </#if>
