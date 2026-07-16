@@ -60,7 +60,6 @@
     <#if realm.password>
       <#assign hasGoogle=false>
       <#assign hasFacebook=false>
-      <#assign hasInstagram=false>
       <#assign hasAmazon=false>
       <div class="vfa-divider"><span>${msg("vfaContinueWith")}</span></div>
       <ul class="vfa-social-list">
@@ -81,20 +80,21 @@
             </#if>
             <#if providerAlias?contains("google")><#assign hasGoogle=true></#if>
             <#if providerAlias?contains("facebook")><#assign hasFacebook=true></#if>
-            <#if providerAlias?contains("instagram")><#assign hasInstagram=true></#if>
             <#if providerAlias?contains("amazon")><#assign hasAmazon=true></#if>
-            <li>
-                <a id="social-${p.alias}" class="vfa-btn vfa-btn--social" type="button" href="${vfaSocialHref}">
-                <#if providerAlias?contains("google") || providerAlias?contains("facebook") || providerAlias?contains("instagram") || providerAlias?contains("amazon")>
-                  <@socialIcon alias=p.alias/>
-                <#elseif p.iconClasses?has_content>
-                  <i class="${p.iconClasses}" aria-hidden="true"></i>
-                <#else>
-                  <@socialIcon alias=p.alias/>
-                </#if>
-                <span class="vfa-social-name">${msg("vfaContinueWithProvider", p.displayName!p.alias)}</span>
-              </a>
-            </li>
+            <#if !providerAlias?contains("instagram")>
+              <li>
+                  <a id="social-${p.alias}" class="vfa-btn vfa-btn--social" type="button" href="${vfaSocialHref}">
+                  <#if providerAlias?contains("google") || providerAlias?contains("facebook") || providerAlias?contains("amazon")>
+                    <@socialIcon alias=p.alias/>
+                  <#elseif p.iconClasses?has_content>
+                    <i class="${p.iconClasses}" aria-hidden="true"></i>
+                  <#else>
+                    <@socialIcon alias=p.alias/>
+                  </#if>
+                  <span class="vfa-social-name">${msg("vfaContinueWithProvider", p.displayName!p.alias)}</span>
+                </a>
+              </li>
+            </#if>
           </#list>
         </#if>
 
@@ -112,14 +112,6 @@
             <a id="social-facebook-model" class="vfa-btn vfa-btn--social" type="button" href="#" onclick="return false;">
               <@socialIcon alias="facebook"/>
               <span class="vfa-social-name">${msg("vfaContinueWithProvider", "Facebook")}</span>
-            </a>
-          </li>
-        </#if>
-        <#if !hasInstagram>
-          <li>
-            <a id="social-instagram-model" class="vfa-btn vfa-btn--social" type="button" href="#" onclick="return false;">
-              <@socialIcon alias="instagram"/>
-              <span class="vfa-social-name">${msg("vfaContinueWithProvider", "Instagram")}</span>
             </a>
           </li>
         </#if>
