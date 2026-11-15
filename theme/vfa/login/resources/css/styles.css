@@ -723,7 +723,7 @@ body.vfa-body {
 .vfa-try-another { margin-top: 1rem; text-align: center; }
 
 /* ------------------------------------------------ Forca de senha (JS) ---- */
-.vfa-strength { margin: -0.4rem 0 1.1rem; }
+.vfa-strength { margin: 0.45rem 0 1.1rem; }
 .vfa-strength__label { font-size: 0.75rem; color: var(--vfa-text-muted); margin-bottom: 0.35rem; }
 .vfa-strength__bars { display: flex; gap: 0.25rem; }
 .vfa-strength__bar {
