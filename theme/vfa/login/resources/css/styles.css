@@ -120,6 +120,33 @@ body.vfa-body {
   max-width: 420px;
   animation: vfa-rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+/* "Voltar ao ViaFluvial": saida discreta no topo, a esquerda, em todas as telas. Fica no fluxo da pagina
+   (nao absoluta) para nunca sobrepor a marca em telas pequenas. */
+.vfa-backbar { margin-bottom: 1.1rem; }
+.vfa-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 40px;
+  padding: 0.4rem 0.9rem 0.4rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(26, 95, 59, 0.18);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--vfa-green);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.vfa-back:hover { background: #ffffff; border-color: rgba(26, 95, 59, 0.35); }
+.vfa-back:focus-visible { outline: none; box-shadow: var(--vfa-ring); }
+.vfa-back__icon {
+  width: 18px; height: 18px;
+  fill: none; stroke: currentColor; stroke-width: 2.2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
 @keyframes vfa-rise {
   from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }

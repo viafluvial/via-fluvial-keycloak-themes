@@ -47,9 +47,20 @@
   <main class="vfa-page" role="main">
     <div class="vfa-container">
 
+      <#-- Destino de "voltar ao app": URL base do cliente (se houver) ou a propriedade do tema -->
+      <#assign vfaHomeUrl = (client?? && client.baseUrl?has_content)?then(client.baseUrl, properties.vfaHomeUrl!properties.kcLogoLink!'/')>
+
+      <#-- Saida clara para quem nao quer criar conta/entrar e so quer continuar navegando no app -->
+      <nav class="vfa-backbar" aria-label="${msg('vfaBackToAppAria')}">
+        <a class="vfa-back" href="${vfaHomeUrl}">
+          <svg class="vfa-back__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+          <span>${msg('vfaBackToApp')}</span>
+        </a>
+      </nav>
+
       <#-- Marca / Branding -->
       <header class="vfa-brand">
-        <a class="vfa-brand__link" href="${properties.kcLogoLink!'#'}">
+        <a class="vfa-brand__link" href="${vfaHomeUrl}">
           <img class="vfa-brand__logo" src="${url.resourcesPath}/img/logo.svg" alt="ViaFluvialAmazônia" width="48" height="48"/>
           <span class="vfa-brand__name">ViaFluvial<span class="vfa-brand__accent">Amazônia</span></span>
         </a>
