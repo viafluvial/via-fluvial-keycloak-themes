@@ -15,7 +15,7 @@ export function UpdatePasswordScreen() {
     >
       {/* Informação */}
       <Alert type="info">
-        Sua senha deve ter no mínimo 8 caracteres, incluindo letras e números.
+        Sua senha deve ter no mínimo 8 caracteres e não pode ser igual ao seu e-mail.
       </Alert>
 
       {/* Formulário de Nova Senha */}
