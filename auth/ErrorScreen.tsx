@@ -110,7 +110,7 @@ export function ErrorScreen() {
       <div className="mt-6 pt-6 border-t border-gray-200 text-center">
         <p className="text-sm text-gray-600 mb-2">Precisa de ajuda?</p>
         <a
-          href="mailto:suporte@viafluvial.am.gov.br"
+          href="mailto:suporte@viafluvial.com.br"
           className="text-sm text-[#1A5F3B] hover:underline font-medium inline-flex items-center gap-1"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

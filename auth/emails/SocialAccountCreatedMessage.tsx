@@ -166,7 +166,7 @@ export function SocialAccountCreatedMessage() {
 
       {/* Botão Principal */}
       <EmailButton
-        href="https://viafluvial.am.gov.br/auth/complete-profile?token=complete123"
+        href="https://viafluvial.com.br/auth/complete-profile?token=complete123"
         text="Completar Cadastro"
         variant="primary"
       />
@@ -195,7 +195,7 @@ export function SocialAccountCreatedMessage() {
           margin: 0,
           fontFamily: 'monospace',
         }}>
-          https://viafluvial.am.gov.br/auth/complete-profile?token=complete123
+          https://viafluvial.com.br/auth/complete-profile?token=complete123
         </p>
       </div>
 
@@ -268,8 +268,8 @@ export function SocialAccountCreatedMessage() {
           textAlign: 'center' as const,
         }}>
           Precisa de ajuda? Entre em contato através do e-mail{' '}
-          <a href="mailto:suporte@viafluvial.am.gov.br" style={{ color: '#1A5F3B', textDecoration: 'underline' }}>
-            suporte@viafluvial.am.gov.br
+          <a href="mailto:suporte@viafluvial.com.br" style={{ color: '#1A5F3B', textDecoration: 'underline' }}>
+            suporte@viafluvial.com.br
           </a>
         </p>
       </div>

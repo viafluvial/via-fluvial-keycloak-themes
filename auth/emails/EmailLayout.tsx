@@ -122,8 +122,8 @@ export function EmailLayout({ children, preheader }: EmailLayoutProps) {
                         Manaus, Amazonas, Brasil
                       </p>
                       <p style={{ margin: '0 0 10px 0' }}>
-                        <a href="mailto:contato@viafluvial.am.gov.br" style={{ color: '#1A5F3B', textDecoration: 'none' }}>
-                          contato@viafluvial.am.gov.br
+                        <a href="mailto:contato@viafluvial.com.br" style={{ color: '#1A5F3B', textDecoration: 'none' }}>
+                          contato@viafluvial.com.br
                         </a>
                       </p>
                     </td>

@@ -85,8 +85,8 @@ export function TermsScreen() {
           
           <p>
             <strong>10. Contato</strong><br />
-            Para questões sobre privacidade: privacidade@viafluvial.am.gov.br<br />
-            Encarregado de Dados (DPO): dpo@viafluvial.am.gov.br
+            Para questões sobre privacidade: privacidade@viafluvial.com.br<br />
+            Encarregado de Dados (DPO): dpo@viafluvial.com.br
           </p>
         </div>
       </div>

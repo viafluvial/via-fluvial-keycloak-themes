@@ -39,7 +39,7 @@ export function VerifyEmailMessage() {
 
       {/* Botão de Confirmação */}
       <EmailButton
-        href="https://viafluvial.am.gov.br/auth/verify?token=abc123xyz"
+        href="https://viafluvial.com.br/auth/verify?token=abc123xyz"
         text="Confirmar E-mail"
         variant="primary"
       />
@@ -68,7 +68,7 @@ export function VerifyEmailMessage() {
           margin: 0,
           fontFamily: 'monospace',
         }}>
-          https://viafluvial.am.gov.br/auth/verify?token=abc123xyz
+          https://viafluvial.com.br/auth/verify?token=abc123xyz
         </p>
       </div>
 

@@ -228,8 +228,8 @@ export function EmailUpdatedMessage() {
                 lineHeight: '1.6',
               }}>
                 <strong>Ação urgente:</strong> Entre em contato imediatamente com nossa equipe de segurança:{' '}
-                <a href="mailto:seguranca@viafluvial.am.gov.br" style={{ color: '#991b1b', textDecoration: 'underline', fontWeight: 'bold' }}>
-                  seguranca@viafluvial.am.gov.br
+                <a href="mailto:seguranca@viafluvial.com.br" style={{ color: '#991b1b', textDecoration: 'underline', fontWeight: 'bold' }}>
+                  seguranca@viafluvial.com.br
                 </a>
               </p>
             </td>
@@ -239,7 +239,7 @@ export function EmailUpdatedMessage() {
 
       {/* Botão de Ação */}
       <EmailButton
-        href="https://viafluvial.am.gov.br/account"
+        href="https://viafluvial.com.br/account"
         text="Ver Minha Conta"
         variant="primary"
       />

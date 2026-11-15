@@ -195,8 +195,8 @@ export function PasswordUpdatedMessage() {
                 lineHeight: '1.6',
               }}>
                 <strong>Ação imediata:</strong> Entre em contato com nossa equipe de segurança pelo e-mail{' '}
-                <a href="mailto:seguranca@viafluvial.am.gov.br" style={{ color: '#991b1b', textDecoration: 'underline' }}>
-                  seguranca@viafluvial.am.gov.br
+                <a href="mailto:seguranca@viafluvial.com.br" style={{ color: '#991b1b', textDecoration: 'underline' }}>
+                  seguranca@viafluvial.com.br
                 </a>
               </p>
             </td>
@@ -206,7 +206,7 @@ export function PasswordUpdatedMessage() {
 
       {/* Botão de Ação */}
       <EmailButton
-        href="https://viafluvial.am.gov.br/auth/login"
+        href="https://viafluvial.com.br/auth/login"
         text="Acessar Minha Conta"
         variant="primary"
       />

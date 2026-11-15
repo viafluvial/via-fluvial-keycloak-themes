@@ -255,7 +255,7 @@ export function NewLoginMessage() {
 
       {/* Botão de Segurança */}
       <EmailButton
-        href="https://viafluvial.am.gov.br/auth/reset-password"
+        href="https://viafluvial.com.br/auth/reset-password"
         text="Alterar Minha Senha"
         variant="primary"
       />
@@ -276,7 +276,7 @@ export function NewLoginMessage() {
           <tr>
             <td style={{ textAlign: 'center' as const }}>
               <a
-                href="https://viafluvial.am.gov.br/account/sessions"
+                href="https://viafluvial.com.br/account/sessions"
                 style={{
                   display: 'inline-block',
                   padding: '12px 24px',
@@ -348,8 +348,8 @@ export function NewLoginMessage() {
           margin: 0,
         }}>
           Contate nossa equipe de segurança:<br />
-          <a href="mailto:seguranca@viafluvial.am.gov.br" style={{ color: '#1A5F3B', textDecoration: 'underline', fontWeight: 'bold' }}>
-            seguranca@viafluvial.am.gov.br
+          <a href="mailto:seguranca@viafluvial.com.br" style={{ color: '#1A5F3B', textDecoration: 'underline', fontWeight: 'bold' }}>
+            seguranca@viafluvial.com.br
           </a>
         </p>
       </div>

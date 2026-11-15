@@ -238,7 +238,7 @@ export function WelcomeMessage() {
 
       {/* Botão Principal */}
       <EmailButton
-        href="https://viafluvial.am.gov.br"
+        href="https://viafluvial.com.br"
         text="Acessar Plataforma"
         variant="primary"
       />
@@ -259,7 +259,7 @@ export function WelcomeMessage() {
           <tr>
             <td style={{ textAlign: 'center' as const }}>
               <a
-                href="https://viafluvial.am.gov.br/rotas"
+                href="https://viafluvial.com.br/rotas"
                 style={{
                   display: 'inline-block',
                   padding: '12px 24px',
@@ -411,7 +411,7 @@ export function WelcomeMessage() {
           color: '#1A5F3B',
           margin: 0,
         }}>
-          📧 <a href="mailto:suporte@viafluvial.am.gov.br" style={{ color: '#1A5F3B', textDecoration: 'underline' }}>suporte@viafluvial.am.gov.br</a><br />
+          📧 <a href="mailto:suporte@viafluvial.com.br" style={{ color: '#1A5F3B', textDecoration: 'underline' }}>suporte@viafluvial.com.br</a><br />
           📱 <a href="tel:+559230001234" style={{ color: '#1A5F3B', textDecoration: 'underline' }}>(92) 3000-1234</a>
         </p>
       </div>

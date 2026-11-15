@@ -205,7 +205,7 @@ export function LoginErrorMessage() {
 
       {/* Botão de Ação */}
       <EmailButton
-        href="https://viafluvial.am.gov.br/auth/reset-password"
+        href="https://viafluvial.com.br/auth/reset-password"
         text="Alterar Minha Senha Agora"
         variant="primary"
       />
@@ -262,8 +262,8 @@ export function LoginErrorMessage() {
           margin: 0,
         }}>
           Entre em contato imediatamente:<br />
-          <a href="mailto:seguranca@viafluvial.am.gov.br" style={{ color: '#1A5F3B', textDecoration: 'underline', fontWeight: 'bold' }}>
-            seguranca@viafluvial.am.gov.br
+          <a href="mailto:seguranca@viafluvial.com.br" style={{ color: '#1A5F3B', textDecoration: 'underline', fontWeight: 'bold' }}>
+            seguranca@viafluvial.com.br
           </a>
         </p>
       </div>

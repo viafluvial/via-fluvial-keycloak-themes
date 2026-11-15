@@ -74,7 +74,7 @@ export function ExecuteActionsMessage() {
 
       {/* Botão de Ação */}
       <EmailButton
-        href="https://viafluvial.am.gov.br/auth/execute-actions?token=action123"
+        href="https://viafluvial.com.br/auth/execute-actions?token=action123"
         text="Completar Ações"
         variant="primary"
       />
@@ -103,7 +103,7 @@ export function ExecuteActionsMessage() {
           margin: 0,
           fontFamily: 'monospace',
         }}>
-          https://viafluvial.am.gov.br/auth/execute-actions?token=action123
+          https://viafluvial.com.br/auth/execute-actions?token=action123
         </p>
       </div>
 
@@ -171,8 +171,8 @@ export function ExecuteActionsMessage() {
         }}>
           <strong>Precisa de ajuda?</strong><br />
           Se tiver dúvidas sobre estas ações, entre em contato com nosso suporte através do e-mail{' '}
-          <a href="mailto:suporte@viafluvial.am.gov.br" style={{ color: '#1A5F3B', textDecoration: 'underline' }}>
-            suporte@viafluvial.am.gov.br
+          <a href="mailto:suporte@viafluvial.com.br" style={{ color: '#1A5F3B', textDecoration: 'underline' }}>
+            suporte@viafluvial.com.br
           </a>
         </p>
       </div>

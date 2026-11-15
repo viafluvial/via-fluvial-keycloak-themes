@@ -39,7 +39,7 @@ export function PasswordResetMessage() {
 
       {/* Botão de Redefinição */}
       <EmailButton
-        href="https://viafluvial.am.gov.br/auth/reset-password?token=xyz789abc"
+        href="https://viafluvial.com.br/auth/reset-password?token=xyz789abc"
         text="Redefinir Senha"
         variant="primary"
       />
@@ -68,7 +68,7 @@ export function PasswordResetMessage() {
           margin: 0,
           fontFamily: 'monospace',
         }}>
-          https://viafluvial.am.gov.br/auth/reset-password?token=xyz789abc
+          https://viafluvial.com.br/auth/reset-password?token=xyz789abc
         </p>
       </div>
 
@@ -124,7 +124,7 @@ export function PasswordResetMessage() {
                 <li>Se você não solicitou esta alteração, <strong>ignore este e-mail</strong></li>
                 <li>Sua senha atual permanecerá ativa</li>
                 <li>Nunca compartilhe este link com outras pessoas</li>
-                <li>Se suspeitar de atividade não autorizada, <a href="mailto:seguranca@viafluvial.am.gov.br" style={{ color: '#991b1b', textDecoration: 'underline' }}>contate nossa equipe</a></li>
+                <li>Se suspeitar de atividade não autorizada, <a href="mailto:seguranca@viafluvial.com.br" style={{ color: '#991b1b', textDecoration: 'underline' }}>contate nossa equipe</a></li>
               </ul>
             </td>
           </tr>

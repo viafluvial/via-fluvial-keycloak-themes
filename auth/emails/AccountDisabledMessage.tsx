@@ -263,7 +263,7 @@ export function AccountDisabledMessage() {
 
       {/* Botão de Contato */}
       <EmailButton
-        href="mailto:suporte@viafluvial.am.gov.br?subject=Conta Bloqueada - Solicitar Reativação"
+        href="mailto:suporte@viafluvial.com.br?subject=Conta Bloqueada - Solicitar Reativação"
         text="Contatar Suporte"
         variant="primary"
       />
@@ -297,8 +297,8 @@ export function AccountDisabledMessage() {
                 textAlign: 'center' as const,
               }}>
                 <strong>E-mail:</strong>{' '}
-                <a href="mailto:suporte@viafluvial.am.gov.br" style={{ color: '#1A5F3B', textDecoration: 'underline' }}>
-                  suporte@viafluvial.am.gov.br
+                <a href="mailto:suporte@viafluvial.com.br" style={{ color: '#1A5F3B', textDecoration: 'underline' }}>
+                  suporte@viafluvial.com.br
                 </a>
               </td>
             </tr>
