@@ -23,6 +23,13 @@
     <#assign vfaInfoLogoutDoneHref=vfaInfoManualHref + "?vfa_logout=1">
   </#if>
 </#if>
+<#-- E-mail verificado (link aberto fora da sessao de cadastro): leva direto ao login do app, nao a tela inicial deslogada. -->
+<#assign vfaAfterVerify=(message?? && message.summary?has_content && (message.summary == msg("emailVerified") || message.summary == msg("emailVerifiedAlready")))>
+<#if vfaAfterVerify>
+  <#assign vfaAppBase=(client?? && client.baseUrl?has_content)?then(client.baseUrl, properties.vfaHomeUrl!properties.kcLogoLink!'/')>
+  <#assign vfaInfoRedirectUrl=vfaAppBase>
+  <#assign vfaInfoLogoutDoneHref=vfaAppBase + (vfaAppBase?contains("?"))?then("&", "?") + "vfa_login=1">
+</#if>
 <@layout.registrationLayout displayMessage=false; section>
   <#if section = "header">
     <h1 class="vfa-title"><#if messageHeader??>${kcSanitize(msg("${messageHeader}"))?no_esc}<#else>${kcSanitize(message.summary)?no_esc}</#if></h1>
@@ -41,7 +48,7 @@
 
     <#if skipLink??>
     <#elseif vfaInfoLogoutDoneHref?has_content>
-      <a href="${vfaInfoLogoutDoneHref}" class="vfa-btn vfa-btn--primary" data-vfa-manual-redirect>${msg("backToApplication")}</a>
+      <a href="${vfaInfoLogoutDoneHref}" class="vfa-btn vfa-btn--primary" data-vfa-manual-redirect><#if vfaAfterVerify>${msg("vfaGoToLogin")}<#else>${msg("backToApplication")}</#if></a>
     </#if>
 
     <#if vfaInfoRedirectUrl?has_content || vfaInfoFallbackUrl?has_content>
